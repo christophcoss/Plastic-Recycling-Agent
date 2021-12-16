@@ -1,12 +1,7 @@
 class Waste:
-    def __init__(self, quantity, qPET, qLDPE, qHDPE, qMKS, qHDPP, qNON):
-        self.quantity = quantity
-        self.qPET = qPET
-        self.qLDPE = qLDPE
-        self.qHDPE = qHDPE
-        self.qMKS = qMKS
-        self.qHDPP = qHDPP
-        self.qNON = qNON
+    def __init__(self, qPlastic, qNPlastic):
+        self.qPlastic = qPlastic
+        self.qNPlastic = qNPlastic
 
     def decreaseWaste(self):
         #TODO

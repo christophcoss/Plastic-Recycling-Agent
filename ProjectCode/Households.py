@@ -16,12 +16,22 @@ class Households(Agent):
         self.wasteProd = wasteProd
 
     def produceTrash(self):
-        return
-    #TODO
+        if self.type == HouseholdType.INDIVIDUALS:
+            self.wasteProd == 9.5
+        if self.type == HouseholdType.COUPLES:
+            self.wasteProd == 19
+        if self.type == HouseholdType.FAMILIES:
+            self.wasteProd == 23.5
+        if self.type == HouseholdType.RETIRED:
+            self.wasteProd == 7.5
 
+
+    #Unsure about this
     def seperateTrash(self):
-        return
-    #TODO
+        plastics = self.wasteProd * 0.195
+        qPlastic = plastics * self.recImportance * self.recKnowledge
+        qNPlastic = plastics * (1-self.recKnowledge * self.recImportance)
+        return Waste(qPlastic, qNPlastic)
 
     def throwOutTrash(self):
         return
