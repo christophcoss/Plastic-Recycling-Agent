@@ -37,6 +37,7 @@ class Households(Agent):
         return
     #TODO
 
+    # add perception
     def improveImportance(self, Activity):
         if not self.connected:
             return

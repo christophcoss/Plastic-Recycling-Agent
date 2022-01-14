@@ -20,3 +20,5 @@ class Municipality(Agent):
         return
     #TODO
 
+    def makeActivities(self):
+        return
