@@ -21,4 +21,4 @@ class Municipality(Agent):
     #TODO
 
     def makeActivities(self):
-        return
+ awd aadwwwww       return
