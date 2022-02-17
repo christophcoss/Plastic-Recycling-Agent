@@ -1,16 +1,36 @@
-# This is a sample Python script.
+import datetime as d
+import matplotlib.pyplot as plt
+import inspect, os.path
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import seaborn as sns
 
+from RecyclingModel import *
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def my_filename(dir, date, name):
+    return "{}/{}_{}".format(dir,date.strftime("%m%d%H%M%S"),name)
 
-# This is a modification
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    now = d.datetime.now()
+    filename = inspect.getframeinfo(inspect.currentframe()).filename
+    homeDir = os.path.dirname(os.path.abspath(filename))
+    outputDir = homeDir[:-5]+"output"
+
+    model = RecyclingModel(nMunicipality = 2,nRecComp = 10,nHouseholds =10)
+    for i in range(241):
+        model.step()
+    print(d.datetime.now())
+    model_data = model.datacollector.get_model_vars_dataframe()
+    sns.lineplot(data=model_data,x='step',y = 'rateRecycling')
+    plt.title('Rate of plastic recycling', fontweight="bold", fontsize=14,y= -0.22)
+    plt.xlabel("Step")
+    plt.ylabel("Rate")
+    plt.savefig(my_filename(outputDir, now, 'rate.png'), bbox_inches='tight')
+
+    plt.figure()
+    sns.lineplot(data=model_data,x='step',y = 'rateRecycling')
+    plt.title('Rate of plastic recycling', fontweight="bold", fontsize=14,y= -0.22)
+    plt.xlabel("Step")
+    plt.ylabel("Rate")
+    plt.savefig(my_filename(outputDir, now, 'rate.png'), bbox_inches='tight')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
