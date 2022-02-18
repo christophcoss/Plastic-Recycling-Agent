@@ -13,12 +13,12 @@ if __name__ == '__main__':
     now = d.datetime.now()
     filename = inspect.getframeinfo(inspect.currentframe()).filename
     homeDir = os.path.dirname(os.path.abspath(filename))
-    outputDir = homeDir[:-5]+"output"
+    outputDir = homeDir[:-11]+"output"
 
     model = RecyclingModel(nMunicipality = 2,nRecComp = 10,nHouseholds =10)
     for i in range(241):
         model.step()
-    print(d.datetime.now())
+    #print(d.datetime.now())
     model_data = model.datacollector.get_model_vars_dataframe()
     sns.lineplot(data=model_data,x='step',y = 'rateRecycling')
     plt.title('Rate of plastic recycling', fontweight="bold", fontsize=14,y= -0.22)
