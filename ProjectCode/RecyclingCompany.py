@@ -5,6 +5,7 @@ from Offer import Offer
 from Util import *
 # from Types import Technology
 
+# Recycling Company is an agent in the model. There are several of them for each municipality.
 class RecyclingCompany(Agent):
     def __init__(self, unique_id, model,  technology=None):
         super().__init__(unique_id, model)

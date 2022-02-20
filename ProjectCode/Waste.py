@@ -4,11 +4,15 @@ from Types import HouseholdType
 
 
 class Waste:
-    coeffRetired = 0.7
-    coeffSingle = 1
-    coeffCouple = 1.7
-    coeffFamily = 3
 
+    # Describes the coefficients of trash production for each household type compared to the base household production
+    coeffRetired = 0.8
+    coeffSingle = 1
+    coeffCouple = 2
+    coeffFamily = 2.5
+
+
+    # The base trash production function using the formula given in the assignement
     @classmethod
     def produceTrash(cls, step, nbSteps):
         waste = 0
@@ -19,6 +23,7 @@ class Waste:
         return waste
 
 
+    # Gives the household trash production depending on the type of the household
     @classmethod
     def trashHousehold(cls, step, type):
         wasteProd = cls.produceTrash(step,1)
@@ -33,6 +38,7 @@ class Waste:
         return wasteProd
 
 
+    # Gives the ammount of trash that the municipality will produce in the next 3 years (for renewing contracts)
     @classmethod
     def trashMunicipality(cls, step, nbSteps, population):
         wasteBase = cls.produceTrash(step,nbSteps)

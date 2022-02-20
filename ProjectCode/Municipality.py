@@ -10,6 +10,12 @@ from Types import HouseholdType, CollectionType
 from Util import *
 from Waste import Waste
 
+# Municipality is another very important agent (for now there are only one but can run the model with more)
+# - They have a recycling target in %
+# - They have a recycling budget (for now for the full 20 years, need to modify to be yearly)
+# - They have a number of contracts (with recycling companies for trash collection and recycling)
+# - They have a number of households (which are responsible for producing the trash)
+
 class Municipality(Agent):
     def __init__(self, unique_id, model, recTarget, recBudget, nbContrat, nbHouseholds):
         super().__init__(unique_id, model)
@@ -26,6 +32,11 @@ class Municipality(Agent):
         self.fines = 0
 
 
+    # The municipality receives offers from multiple companies it needs to choose only one.
+    # does so by eliminating companies that have unrealistic fines and realistic recycling targets,
+    # then chooses the cheapest with the highest recycling target
+    # returns none if there are no suitable offer
+    # NEED TO REVISE MIGHT BE WRONG
     def chooseOffer(self, listOffers):
         res = []
         for offer in listOffers:
@@ -45,22 +56,27 @@ class Municipality(Agent):
     # def setCollectionRate(self, rate):
     #     return
 
+
+    # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
+    # that will improve the preception, importance and knowledge of the households towards recycling.
+
+    #TODO
     def makeActivities(self):
        return
 
-
+    # Decide how many new contracts need to be made for the coming (3) years
     def newContracts(self, step):
         wasteProdNyears = Waste.trashMunicipality(step, lengthContract*12, self.population)
-        marge = 1.015
-        wasteToContract = round(wasteProdNyears * marge)
+        margin = 1.015
+        wasteToContract = round(wasteProdNyears * margin)
         if self.nbContrat == 1 :
             self.newContract(step,CollectionType.AT_HOME,wasteToContract,1)
         else :
-            partAtHome = round(random.uniform(0.51,0.65) * wasteProdNyears * marge)
+            partAtHome = round(random.uniform(0.51,0.65) * wasteProdNyears * margin)
             self.newContract(step,CollectionType.AT_HOME,partAtHome,1)
             self.newContract(step,CollectionType.CENTRALIZED, wasteToContract - partAtHome,2)
 
-
+    # create a new contrat with a recycling company
     def newContract(self,step,collType,baseWaste,seq):
 
         recIncs = self.model.schedule.agents_by_type[RecyclingCompany].values()
@@ -86,6 +102,9 @@ class Municipality(Agent):
         self.availableMoney -= fine
 
 
+
+    # Municipality needs to create its population this is done in a semi-random way
+    # where interval is given for the proportion of a certain household type in the municipality
     def setPopulationPerType(self):
         infVals = [0.10, 0.20, 0.20, 0.20]
         supVals = [0.25, 0.35, 0.35, 0.35]

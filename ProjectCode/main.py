@@ -6,6 +6,7 @@ import seaborn as sns
 
 from RecyclingModel import *
 
+#run model and generate graph results (not much for now)
 def my_filename(dir, date, name):
     return "{}/{}_{}".format(dir,date.strftime("%m%d%H%M%S"),name)
 

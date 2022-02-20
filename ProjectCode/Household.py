@@ -8,8 +8,17 @@ from Waste import *
 from Types import CollectionType
 
 
+# Households are the main agent of the model.
+# - They belong to a municipality
+# - They are one of these types: [Retired, Single, Couple, Family]
+# - They have (or don't) access to the main recycling grid infrastructure (making recycling possible)
+# - They have (or not) collection of waste directly from their household
+# - They have a distance to centralized recycling system)
+# - They have perception importance and knowledge of recycling
+
+
 class Household(Agent):
-    def __init__(self, unique_id, model, municipality, type, infraAccess,collectAtHome, distance, recPerception, recImportance, recKnowledge):
+    def __init__(self, unique_id, model, municipality, type, infraAccess, collectAtHome, distance, recPerception, recImportance, recKnowledge):
         super().__init__(unique_id, model)
         self.municipality = municipality
         self.type = type
@@ -25,13 +34,17 @@ class Household(Agent):
         self.wastePlasticToThrow = 0
         self.wasteNPlasticToThrow = 0
 
-
-    # add perception
+    # To Modify this is not good
     def improveImportance(self, Activity):
         newRecImp = self.recImportance * (1 + Activity.efficiency)
         self.recImportance = min(newRecImp, 1)
 
+    # To Modify this is not good
+    def improvePerception(self, Activity):
+        newRecPer = self.recPerception * (1 + Activity.efficiency)
+        self.recPerception = min(newRecPer, 1)
 
+    # To Modify this is not good
     def improveKnowledge(self, Activity):
         newRecKnow = (self.recKnowledge * (1 + Activity.efficiency))
         self.recImportance = min(newRecKnow, 1)

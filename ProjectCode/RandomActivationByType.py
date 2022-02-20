@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from mesa.time import RandomActivation
 
-
+# Stolen from WolfSheepGrass so that its easier to find than digging in the mesa source code
 class RandomActivationByType(RandomActivation):
     '''
     A scheduler which activates each type of agent once per step, in random
