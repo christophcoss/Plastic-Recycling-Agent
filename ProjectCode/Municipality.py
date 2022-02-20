@@ -71,7 +71,7 @@ class Municipality(Agent):
                listOffers.append(a.makeOffer(baseWaste, recyclingTarget))
             offerOK = self.chooseOffer(listOffers)
 
-        # an offer has been choosen
+        # an offer has been chosen
         newContract = Contract(self, offerOK.recCompany, offerOK.amount, offerOK.baseWaste, offerOK.minRec, \
                               collType, step, step+lengthContract*12, offerOK.fine, seq)
 
