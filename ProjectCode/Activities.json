@@ -1,0 +1,17 @@
+[
+  {
+    "Name" : "Build more centralized collection spots",
+    "Attribute" : "infraAccess",
+    "Efficiency" : 0.3,
+    "Cost" : 3000000,
+    "ScaledCost" : false
+  }
+,
+  {
+    "Name" : "Billboard campaign on recycling importance",
+    "Attribute" : "recImportance",
+    "Efficiency" : 0.2,
+    "Cost" : 100,
+    "ScaledCost" : true
+  }
+]
