@@ -14,4 +14,52 @@
     "Cost" : 100,
     "ScaledCost" : true
   }
+,
+  {
+    "Name" : "Digital campaign on recycling importance",
+    "Attribute" : "recImportance",
+    "Efficiency" : 0.4,
+    "Cost" : 300,
+    "ScaledCost" : true
+  }
+,
+    {
+    "Name" : "educative events on recycling importance",
+    "Attribute" : "recImportance",
+    "Efficiency" : 0.5,
+    "Cost" : 150,
+    "ScaledCost" : true
+  }
+,
+  {
+    "Name" : "Billboard campaign on recycling knowledge",
+    "Attribute" : "recKnowledge",
+    "Efficiency" : 0.2,
+    "Cost" : 100,
+    "ScaledCost" : true
+  }
+  ,
+      {
+    "Name" : "Billboard campaign on recycling Perception",
+    "Attribute" : "recPerception",
+    "Efficiency" : 0.2,
+    "Cost" : 100,
+    "ScaledCost" : true
+  }
+,
+  {
+    "Name" : "tax paid by consumers for plastic consumption",
+    "Attribute" : "wasteProd",
+    "Efficiency" : 0.05,
+    "Cost" : 0,
+    "ScaledCost" : true
+  }
+  ,
+  {
+    "Name" : "",
+    "Attribute" : "",
+    "Efficiency" : ,
+    "Cost" : ,
+    "ScaledCost" :
+  }
 ]
