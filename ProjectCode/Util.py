@@ -1,11 +1,5 @@
 import random
 
-#Random values for now need to be changed
-recPerception = 0.4
-recImportance = 0.5
-recKnowledge = 0.3
-variation = 0.15
-
 lengthContract = 3
 nbContrat = 2
 

@@ -1,70 +1,62 @@
 {
-  "households": [
-    {
-      "single": {
-        "recPerception": {
-          "Mean": 0.8,
-          "Var": 0.075
-        },
-        "recImportance": {
-          "Mean": 0.5,
-          "Var": 0.1
-        },
-        "recKnowledge": {
-          "Mean": 0.9,
-          "Var": 0.05
-        }
+  "households": {
+    "single": {
+      "recPerception": {
+        "Mean": 0.8,
+        "Var": 0.075
+      },
+      "recImportance": {
+        "Mean": 0.5,
+        "Var": 0.1
+      },
+      "recKnowledge": {
+        "Mean": 0.9,
+        "Var": 0.05
       }
     },
-    {
-      "couple": {
-        "recPerception": {
-          "Mean": 0.95,
-          "Var": 0.025
-        },
-        "recImportance": {
-          "Mean": 0.8,
-          "Var": 0.075
-        },
-        "recKnowledge": {
-          "Mean": 0.95,
-          "Var": 0.025
-        }
+    "couple": {
+      "recPerception": {
+        "Mean": 0.95,
+        "Var": 0.025
+      },
+      "recImportance": {
+        "Mean": 0.8,
+        "Var": 0.075
+      },
+      "recKnowledge": {
+        "Mean": 0.95,
+        "Var": 0.025
       }
     },
-    {
-      "retired": {
-        "recPerception": {
-          "Mean": 0.8,
-          "Var": 0.075
-        },
-        "recImportance": {
-          "Mean": 0.65,
-          "Var": 0.075
-        },
-        "recKnowledge": {
-          "Mean": 0.8,
-          "Var": 0.075
-        }
+    "retired": {
+      "recPerception": {
+        "Mean": 0.8,
+        "Var": 0.075
+      },
+      "recImportance": {
+        "Mean": 0.65,
+        "Var": 0.075
+      },
+      "recKnowledge": {
+        "Mean": 0.8,
+        "Var": 0.075
       }
     },
-    {
-      "family": {
-        "recPerception": {
-          "Mean": 0.95,
-          "Var": 0.025
-        },
-        "recImportance": {
-          "Mean": 0.8,
-          "Var": 0.075
-        },
-        "recKnowledge": {
-          "Mean": 0.95,
-          "Var": 0.025
-        }
+    "family": {
+      "recPerception": {
+        "Mean": 0.95,
+        "Var": 0.025
+      },
+      "recImportance": {
+        "Mean": 0.8,
+        "Var": 0.075
+      },
+      "recKnowledge": {
+        "Mean": 0.95,
+        "Var": 0.025
       }
     }
-  ],
+  },
   "nBContract": 5,
   "moneyDispoPerHousehold": 581,
   "recyclingTarget": 0.7,

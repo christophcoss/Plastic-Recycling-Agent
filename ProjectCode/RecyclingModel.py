@@ -1,5 +1,6 @@
 import random
 import json
+import numpy as np
 
 #from collections import defaultdict
 
@@ -69,6 +70,8 @@ class RecyclingModel(Model):
         self.nRecComp = nRecComp
         self.nHouseholds = nHouseholds
         self.schedule = RandomActivationByType(self)
+        self.config = self.loadConfig()
+
 
         #the data collector, defines which variables will be collected, and how
         model_metrics = {
@@ -100,7 +103,7 @@ class RecyclingModel(Model):
             self.schedule.add(mun)
 
             # add Households for this municipality
-            types = getScrambleArray(mun.population)
+            types = mun.population
             #recycling available to households
             access = getScrambleArrayBin(True, False, random.uniform(0.959, 0.981), mun.nbHouseholds)
             # collection at Home or not
@@ -109,13 +112,21 @@ class RecyclingModel(Model):
             else :
                 atHome = getScrambleArrayBin(True, False, random.uniform(0.70, 0.85), mun.nbHouseholds)
 
-            for j in range(self.nHouseholds):
+
+            j = 0
+            for pop in types:
+                values = self.config['households'][pop[0].value]
+                gausPer = np.random.normal(values['recPerception']['Mean'], values['recPerception']['Var'], pop[1])
+                gausImp = np.random.normal(values['recImportance']['Mean'], values['recImportance']['Var'], pop[1])
+                gausKno = np.random.normal(values['recKnowledge']['Mean'], values['recKnowledge']['Var'], pop[1])
+
                 distance = random.uniform(0,300)
-                house = Household(munId+1+j, self, mun, types[j], access[j], atHome[j], distance, \
-                                   random.uniform(recPerception-variation, recPerception+variation),\
-                                   random.uniform(recImportance-variation, recImportance+variation),\
-                                   random.uniform(recKnowledge-variation, recKnowledge+variation))
-                self.schedule.add(house)
+
+                for k in range (pop[1]):
+                    house = Household(munId+1+j, self, mun, pop[0], access[j], atHome[j], distance, self.limitValues(gausPer[k]), self.limitValues(gausImp[k]), self.limitValues(gausKno[k]))
+                    self.schedule.add(house)
+                    j += 1
+
         return
 
     def loadActivities(self):
@@ -128,6 +139,18 @@ class RecyclingModel(Model):
             res.append(act)
         return res
 
+    def loadConfig(self):
+        f = open('config.json')
+        data = json.load(f)
+        f.close()
+        return data
+
+    def limitValues(self, s):
+        if s < 0:
+            return 0
+        if s < 1:
+            return s
+        return 1
 
     def step(self):
         '''Advance the model by one step.'''
