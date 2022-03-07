@@ -1,4 +1,6 @@
 import random
+import json
+
 #from collections import defaultdict
 
 
@@ -6,6 +8,7 @@ from mesa import Model
 from mesa.datacollection import DataCollector
 from mesa.time import RandomActivation
 
+from Activity import Activity
 from Household import Household
 from Municipality import Municipality
 from RandomActivationByType import RandomActivationByType
@@ -61,6 +64,7 @@ def get_data_municipality(model):
 class RecyclingModel(Model):
     def __init__(self, nMunicipality, nRecComp, nHouseholds, seed = None):
         super().__init__(seed)
+        self.activities = self.loadActivities()
         self.nMunicipality = nMunicipality
         self.nRecComp = nRecComp
         self.nHouseholds = nHouseholds
@@ -114,6 +118,16 @@ class RecyclingModel(Model):
                 self.schedule.add(house)
         return
 
+    def loadActivities(self):
+        f = open('Activities.json')
+        data = json.load(f)
+        f.close()
+        res = []
+        for a in data:
+            act = Activity(a)
+            res.append(act)
+        return res
+
 
     def step(self):
         '''Advance the model by one step.'''
@@ -121,3 +135,4 @@ class RecyclingModel(Model):
         self.datacollector.collect(self)
         #run the step
         self.schedule.step()
+
