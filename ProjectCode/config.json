@@ -59,6 +59,6 @@
   },
   "nBContract": 5,
   "moneyDispoPerHousehold": 581,
-  "recyclingTarget": 0.7,
+  "recyclingTarget": 0.55,
   "pricePerTon": 30
 }
