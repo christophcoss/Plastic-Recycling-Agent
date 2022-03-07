@@ -4,15 +4,15 @@
       "single": {
         "recPerception": {
           "Mean": 0.8,
-          "Var": 7.5
+          "Var": 0.075
         },
         "recImportance": {
           "Mean": 0.5,
-          "Var": 10
+          "Var": 0.1
         },
         "recKnowledge": {
           "Mean": 0.9,
-          "Var": 5
+          "Var": 0.05
         }
       }
     },
@@ -20,15 +20,15 @@
       "couple": {
         "recPerception": {
           "Mean": 0.95,
-          "Var": 2.5
+          "Var": 0.025
         },
         "recImportance": {
           "Mean": 0.8,
-          "Var": 7.5
+          "Var": 0.075
         },
         "recKnowledge": {
           "Mean": 0.95,
-          "Var": 2.5
+          "Var": 0.025
         }
       }
     },
@@ -36,15 +36,15 @@
       "retired": {
         "recPerception": {
           "Mean": 0.8,
-          "Var": 7.5
+          "Var": 0.075
         },
         "recImportance": {
           "Mean": 0.65,
-          "Var": 7.5
+          "Var": 0.075
         },
         "recKnowledge": {
           "Mean": 0.8,
-          "Var": 7.5
+          "Var": 0.075
         }
       }
     },
@@ -52,15 +52,15 @@
       "family": {
         "recPerception": {
           "Mean": 0.95,
-          "Var": 2.5
+          "Var": 0.025
         },
         "recImportance": {
           "Mean": 0.8,
-          "Var": 7.5
+          "Var": 0.075
         },
         "recKnowledge": {
           "Mean": 0.95,
-          "Var": 2.5
+          "Var": 0.025
         }
       }
     }

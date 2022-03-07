@@ -6,10 +6,11 @@ class Activity:
         self.attribute = activity["Attribute"]
         self.cost = activity["Cost"]
         self.efficiency = activity["Efficiency"]
-        self.ScaledCost = activity["ScaledCost"]
+        self.scaledCost = activity["ScaledCost"]
+        self.stepsToEffect = activity["StepsToEffect"]
 
     def totalCost(self, nbHouseholds):
-        if self.ScaledCost :
+        if self.scaledCost :
             return nbHouseholds * self.cost
         else :
             return self.cost
