@@ -13,7 +13,7 @@ from Types import CollectionType
 # - They are one of these types: [Retired, Single, Couple, Family]
 # - They have (or don't) access to the main recycling grid infrastructure (making recycling possible)
 # - They have (or not) collection of waste directly from their household
-# - They have a distance to centralized recycling system)
+# - They have a distance to centralized recycling system
 # - They have perception importance and knowledge of recycling
 
 
