@@ -3,10 +3,10 @@
     "Name": "Build more centralized collection spots",
     "Attribute": "infraAccess",
     "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
-      "retired": 0.3,
-      "family": 0.3
+      "single": 0.4,
+      "couple": 0.4,
+      "retired": 0.4,
+      "family": 0.4
     },
     "Cost": 3000000,
     "ScaledCost": false,
@@ -16,51 +16,25 @@
     "Name": "Billboard campaign on recycling importance",
     "Attribute": "recImportance",
     "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
-      "retired": 0.3,
-      "family": 0.3
+      "single": 0.2,
+      "couple": 0.2,
+      "retired": 0.2,
+      "family": 0.2
     },
-    "Cost": 100,
+    "Cost": 2000,
     "ScaledCost": true,
     "StepsToEffect": 1
   },
-  {
-    "Name": "Digital campaign on recycling importance",
-    "Attribute": "recImportance",
-    "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
-      "retired": 0.3,
-      "family": 0.3
-    },
-    "Cost": 300,
-    "ScaledCost": true,
-    "StepsToEffect": 1
-  },
-  {
-    "Name": "educative events on recycling importance",
-    "Attribute": "recImportance",
-    "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
-      "retired": 0.3,
-      "family": 0.3
-    },
-    "Cost": 150,
-    "ScaledCost": true,
-    "StepsToEffect": 1
-  },
-  {
+    {
     "Name": "Billboard campaign on recycling knowledge",
     "Attribute": "recKnowledge",
     "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
-      "retired": 0.3,
-      "family": 0.3
+      "single": 0.2,
+      "couple": 0.2,
+      "retired": 0.2,
+      "family": 0.2
     },
-    "Cost": 100,
+    "Cost": 2000,
     "ScaledCost": true,
     "StepsToEffect": 1
   },
@@ -68,12 +42,90 @@
     "Name": "Billboard campaign on recycling Perception",
     "Attribute": "recPerception",
     "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
-      "retired": 0.3,
+      "single": 0.2,
+      "couple": 0.2,
+      "retired": 0.2,
+      "family": 0.2
+    },
+    "Cost": 2000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "Digital campaign on recycling importance",
+    "Attribute": "recImportance",
+    "Efficiency": {
+      "single": 0.6,
+      "couple": 0.6,
+      "retired": 0.1,
       "family": 0.3
     },
-    "Cost": 100,
+    "Cost": 10000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "Digital campaign on recycling knowledge",
+    "Attribute": "recKnowledge",
+    "Efficiency": {
+      "single": 0.6,
+      "couple": 0.6,
+      "retired": 0.1,
+      "family": 0.3
+    },
+    "Cost": 10000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "Digital campaign on recycling perception",
+    "Attribute": "recPerception",
+    "Efficiency": {
+      "single": 0.6,
+      "couple": 0.6,
+      "retired": 0.1,
+      "family": 0.3
+    },
+    "Cost": 10000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "educative events on recycling importance",
+    "Attribute": "recImportance",
+    "Efficiency": {
+      "single": 0.2,
+      "couple": 0.3,
+      "retired": 0.4,
+      "family": 0.5
+    },
+    "Cost": 1000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "educative events on recycling knowledge",
+    "Attribute": "recKnowledge",
+    "Efficiency": {
+      "single": 0.2,
+      "couple": 0.3,
+      "retired": 0.4,
+      "family": 0.5
+    },
+    "Cost": 1000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "educative events on recycling perception",
+    "Attribute": "recPerception",
+    "Efficiency": {
+      "single": 0.2,
+      "couple": 0.3,
+      "retired": 0.4,
+      "family": 0.5
+    },
+    "Cost": 1000,
     "ScaledCost": true,
     "StepsToEffect": 1
   },
@@ -81,10 +133,10 @@
     "Name": "tax paid by consumers for plastic consumption",
     "Attribute": "wasteProd",
     "Efficiency": {
-      "single": 0.3,
-      "couple": 0.3,
+      "single": 0.2,
+      "couple": 0.4,
       "retired": 0.3,
-      "family": 0.3
+      "family": 0.5
     },
     "Cost": 0,
     "ScaledCost": true,
