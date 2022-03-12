@@ -25,10 +25,6 @@
     "ScaledCost": true,
     "StepsToEffect": 1
   },
-    "Cost": 2000,
-    "ScaledCost": true,
-    "StepsToEffect": 0
-  },
   {
     "Name": "Digital campaign on recycling importance",
     "Attribute": ["recImportance", "recKnowledge", "recPerception"],
@@ -59,10 +55,10 @@
     "Name": "tax paid by consumers for plastic consumption",
     "Attribute": ["wasteProd"],
     "Efficiency": {
-      "single": 0.2,
-      "couple": 0.4,
-      "retired": 0.3,
-      "family": 0.5
+      "single": -0.2,
+      "couple": -0.4,
+      "retired": -0.3,
+      "family": -0.5
     },
     "Cost": 0,
     "ScaledCost": true,
