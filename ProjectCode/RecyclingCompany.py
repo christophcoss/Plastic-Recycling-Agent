@@ -22,7 +22,7 @@ class RecyclingCompany(Agent):
     # simple calculation :
     # TODO : more elaborate calculation
     def calculateFine(self,contract):
-        if contract.plasticRate() < contract.minRec :
+        if contract.globalPlasticRate() < contract.minRec :
             return contract.fine
         else:
             return 0

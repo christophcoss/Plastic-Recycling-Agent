@@ -140,3 +140,17 @@ class Municipality(Agent):
 
 
         # TODO: add activities if rate of plastic too low
+
+
+    def instantRate (self) :
+        totalCollectedWaste = 0
+        totalCollectedPlastic = 0
+        for contract in self.activeContracts:
+            totalCollectedWaste += contract.stepCollectedWaste
+            totalCollectedPlastic += contract.stepCollectedPlastic
+            # TODO Change how this is reseted
+            contract.stepCollectedWaste = 0
+            contract.stepCollectedPlastic = 0
+        return 0 if totalCollectedWaste == 0 else totalCollectedPlastic / totalCollectedWaste
+
+

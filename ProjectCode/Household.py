@@ -83,26 +83,14 @@ class Household(Agent):
                         (self.collectAtHome or a.type == CollectionType.CENTRALIZED) and \
                         a.full == False]
         if (len(contracts) > 1):
-            if self.distanceFromCentralizedSystem < 50 :
+            if self.distanceFromCentralizedSystem < self.model.config["distanceToCenter"]["Min"] :
                 contracts.sort(key = lambda x: x.type.value, reverse = True)
             else:
                 contracts.sort(key = lambda x: x.type.value)
         for contract in contracts :
-            avail = contract.baseWaste - contract.collectedWaste
-            wasteToThrow = self.wastePlasticToThrow + self.wasteNPlasticToThrow
-            if  avail >= wasteToThrow:
-                contract.collectedWaste += self.wastePlasticToThrow + self.wasteNPlasticToThrow
-                contract.collectedPlastic += self.wastePlasticToThrow
-                self.wastePlasticToThrow = 0
-                self.wasteNPlasticToThrow = 0
-            else:
-                contract.full = True
-                plastic = self.wastePlasticToThrow * avail /wasteToThrow
-                nonPlastic = self.wasteNPlasticToThrow * avail /wasteToThrow
-                contract.collectedWaste += avail
-                contract.collectedPlastic += plastic
-                self.wastePlasticToThrow  -= plastic
-                self.wasteNPlasticToThrow -= nonPlastic
+            self.wasteNPlasticToThrow, self.wastePlasticToThrow = contract.collect(self.wasteNPlasticToThrow, self.wastePlasticToThrow )
+            if self.wasteNPlasticToThrow == 0 and self.wastePlasticToThrow == 0 :
+                break
         return
 
 
