@@ -43,8 +43,13 @@ class RecyclingCompany(Agent):
 
         return Offer(self, wasteBase, recTarget, minRec, fine, amount)
 
+    def resetCollectedWaste(self):
+        for con in self.activeContracts:
+            con.stepCollectedWaste = 0
+            con.stepCollectedPlastic = 0
 
     def step(self):
+        self.resetCollectedWaste()
         step = self.model.schedule.steps
         endedContracts = [a for a in self.activeContracts if a.end == step]
         for contract in endedContracts:

@@ -42,8 +42,8 @@ class Contract:
             return 0 , 0
         else:
             self.full = True
-            plastic = self.wastePlasticToThrow * avail / wasteToThrow
-            nonPlastic = self.wasteNPlasticToThrow * avail / wasteToThrow
+            plastic = wastePlasticToThrow * avail / wasteToThrow
+            nonPlastic = wasteNPlasticToThrow * avail / wasteToThrow
             self.collectedWaste += avail
             self.stepCollectedWaste += avail
             self.collectedPlastic += plastic

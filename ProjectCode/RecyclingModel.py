@@ -30,7 +30,7 @@ def get_collected_plastic(model):
     return get_data_contract(model)[1]
 
 def get_rate_recycling(model):
-    return get_data_contract(model)[2]
+    return get_data_municipality(model)[2]
 
 def get_data_contract(model):
     collectedWaste = 0
@@ -52,14 +52,15 @@ def get_available_money(model):
 def get_total_fines(model):
     return get_data_municipality(model)[1]
 
+#Assumes only one municipality
 def get_data_municipality(model):
     money = 0
     fines = 0
     for mun in model.schedule.agents_by_type[Municipality].values():
         money += mun.availableMoney
         fines += mun.fines
-    return money, fines
-
+        rate = mun.rate
+    return money, fines, rate
 
 
 class RecyclingModel(Model):
@@ -83,8 +84,8 @@ class RecyclingModel(Model):
                 "availableMoney":get_available_money
             }
         # agent_metrics = {
-        #     "wealth":"wealth"
-        # }
+        #         "rate":getRate
+        #     }
         self.datacollector = DataCollector(model_reporters=model_metrics)
 
         #Create Agents
@@ -152,6 +153,10 @@ class RecyclingModel(Model):
             return s
         return 1
 
+    def getTarget(self):
+        # add 5% every 5 years
+        return self.config["recyclingTarget"] + 0.05 * (self.schedule.steps // 60)
+
     def step(self):
         '''Advance the model by one step.'''
         #collect the model data
@@ -159,3 +164,10 @@ class RecyclingModel(Model):
         #run the step
         self.schedule.step()
 
+        self.afterStep()
+
+    def afterStep(self):
+        muns = self.schedule.get_agents_of_type(Municipality)
+
+        for mun in muns:
+            mun.afterStep()

@@ -30,6 +30,10 @@ class Municipality(Agent):
         self.population = []
         self.setPopulationPerType()
         self.fines = 0
+        self.stepTotalCollectedWaste = 0
+        self.stepTotalCollectedPlastic = 0
+        self.rate = 0
+        self.pendingActivities = []
 
 
     # The municipality receives offers from multiple companies it needs to choose only one.
@@ -50,19 +54,12 @@ class Municipality(Agent):
         return res[0]
 
 
-
-
-    # #TODO
-    # def setCollectionRate(self, rate):
-    #     return
-
-
     # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
     # that will improve the preception, importance and knowledge of the households towards recycling.
 
     #TODO
     def makeActivities(self):
-       return
+       return 0
 
     # Decide how many new contracts need to be made for the coming (3) years
     def newContracts(self, step):
@@ -135,22 +132,22 @@ class Municipality(Agent):
             self.activeContracts.remove(contract)
 
         # create new contracts if needed
-        if step % (lengthContract*12) == 0  :
+        if step % (lengthContract*12) == 0:
             self.newContracts(step)
 
 
-        # TODO: add activities if rate of plastic too low
-
+    def afterStep(self):
+        self.rate = self.instantRate()
+        # maybe change this so that it takes into account avoiding fines from companies
+        if self.rate < (self.model.getTarget() * 1.05) and self.model.schedule.steps % 12 == 0 and self.model.schedule.steps != 0:
+            self.makeActivities()
 
     def instantRate (self) :
-        totalCollectedWaste = 0
-        totalCollectedPlastic = 0
+        self.stepTotalCollectedWaste = 0
+        self.stepTotalCollectedPlastic = 0
         for contract in self.activeContracts:
-            totalCollectedWaste += contract.stepCollectedWaste
-            totalCollectedPlastic += contract.stepCollectedPlastic
-            # TODO Change how this is reseted
-            contract.stepCollectedWaste = 0
-            contract.stepCollectedPlastic = 0
-        return 0 if totalCollectedWaste == 0 else totalCollectedPlastic / totalCollectedWaste
+            self.stepTotalCollectedWaste += contract.stepCollectedWaste
+            self.stepTotalCollectedPlastic += contract.stepCollectedPlastic
+        return 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / self.stepTotalCollectedWaste
 
 

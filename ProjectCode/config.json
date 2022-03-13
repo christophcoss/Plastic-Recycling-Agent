@@ -67,7 +67,7 @@
   },
   "nBContract": 5,
   "moneyDispoPerHousehold": 581,
-  "recyclingTarget": 0.55,
+  "recyclingTarget": 0.5,
   "pricePerTon": 30,
   "plasticRateInWaste" : 0.195,
   "distanceToCenter" : {

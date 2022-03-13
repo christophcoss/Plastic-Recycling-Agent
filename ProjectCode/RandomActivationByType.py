@@ -74,3 +74,6 @@ class RandomActivationByType(RandomActivation):
         Returns the current number of agents of certain type in the queue.
         '''
         return len(self.agents_by_type[agent_class].values())
+
+    def get_agents_of_type(self, breed):
+        return list(self.agents_by_type[breed].values())
