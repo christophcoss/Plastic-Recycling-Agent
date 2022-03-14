@@ -36,21 +36,6 @@ class Household(Agent):
         self.wastePlasticToThrow = 0
         self.wasteNPlasticToThrow = 0
 
-    # To Modify this is not good
-    def improveImportance(self, Activity):
-        newRecImp = self.recImportance * (1 + Activity.efficiency)
-        self.recImportance = min(newRecImp, 1)
-
-    # To Modify this is not good
-    def improvePerception(self, Activity):
-        newRecPer = self.recPerception * (1 + Activity.efficiency)
-        self.recPerception = min(newRecPer, 1)
-
-    # To Modify this is not good
-    def improveKnowledge(self, Activity):
-        newRecKnow = (self.recKnowledge * (1 + Activity.efficiency))
-        self.recImportance = min(newRecKnow, 1)
-
 
     def produceAndSortTrash(self, step):
         wasteProd = Waste.trashHousehold(step, self.type) * self.factorWaste
@@ -67,7 +52,7 @@ class Household(Agent):
     def separateTrash(self, wasteProd):
         if not self.infraAccess:
             return 0
-        plastics = wasteProd * 0.195
+        plastics = wasteProd * self.model.config['plasticRateInWaste']
         return plastics * self.recImportance * self.recKnowledge
 
 
@@ -82,18 +67,24 @@ class Household(Agent):
             if act.effectOnStep == step:
                 self.act(act)
 
+
     def act(self, act):
+
         if 'recImportance' in act.attribute:
             self.recImportance *= 1 + act.efficiency[self.type.value]
+            self.recImportance = 1 if self.recImportance > 1 else (self.recImportance if self.recImportance > 0 else 0)
         if 'recKnowledge' in act.attribute:
             self.recKnowledge *= 1 + act.efficiency[self.type.value]
+            self.recKnowledge = 1 if self.recKnowledge > 1 else (self.recKnowledge if self.recKnowledge > 0 else 0)
         if 'recPerception' in act.attribute:
             self.recPerception *= 1 + act.efficiency[self.type.value]
+            self.recPerception = 1 if self.recPerception > 1 else (self.recPerception if self.recPerception > 0 else 0)
         if 'wasteProd' in act.attribute:
             self.factorWaste *= 1 + act.efficiency[self.type.value]
         if 'infraAccess' in act.attribute:
             self.infraAccess = self.infraAccess if self.infraAccess else random.random() < act.efficiency[self.type.value]
 
+        #self.municipality.pendingActivities.remove(act)
 
     # if centralized collection is available and not too far away then it is the choosen option
     # otherwise collection at home is choosen if available

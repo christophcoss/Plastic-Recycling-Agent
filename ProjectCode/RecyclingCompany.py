@@ -37,9 +37,13 @@ class RecyclingCompany(Agent):
 
 
     def makeOffer(self, wasteBase, recTarget):
-        minRec = recTarget * random.uniform(0.97,1.03)
-        amount = round(wasteBase / 1000 * pricePerTon * random.uniform(0.97,1.03))
-        fine = round(amount * 0.1 * random.uniform(0.9,1.1))
+        conTargetD = self.model.config['contractTargetDelta']
+        conPriceD = self.model.config['contractPriceDelta']
+        fineFactor = self.model.config['fineFactor']['factor']
+        fineFactorD = self.model.config['fineFactor']['delta']
+        minRec = recTarget * random.uniform(1 - conTargetD,1 + conTargetD)
+        amount = round(wasteBase / 1000 * self.model.config['pricePerTon'] * random.uniform(1 - conPriceD,1 + conPriceD))
+        fine = round(amount * fineFactor * random.uniform(1 - fineFactorD,1 + fineFactorD))
 
         return Offer(self, wasteBase, recTarget, minRec, fine, amount)
 

@@ -38,8 +38,8 @@ def get_data_contract(model):
     ratePlastic = 0
     for mun in model.schedule.agents_by_type[Municipality].values():
         for contract in mun.contracts:
-            collectedWaste   += contract.collectedWaste
-            collectedPlastic += contract.collectedPlastic
+            collectedWaste   += contract.stepCollectedWaste
+            collectedPlastic += contract.stepCollectedPlastic
     if collectedWaste > 0:
         ratePlastic = collectedPlastic / collectedWaste
 
@@ -97,8 +97,8 @@ class RecyclingModel(Model):
         # municipalities
         for i in range(self.nMunicipality):
             munId = i*(self.nHouseholds+1) + self.nRecComp
-            mun = Municipality(munId, self, recyclingTarget, moneyDispoPerHousehold * self.nHouseholds, \
-                               nbContrat, self.nHouseholds)
+            mun = Municipality(munId, self, self.getTarget(), self.config['moneyDispoPerHousehold'] * self.nHouseholds, \
+                               self.config['nBContract'], self.nHouseholds)
             # First Municipality must be added to schedule before any Household => step by type is
             # called first to Municipality then Household => contracts are created before thery are needed
             self.schedule.add(mun)
@@ -106,7 +106,7 @@ class RecyclingModel(Model):
             # add Households for this municipality
             types = mun.population
             #recycling available to households
-            access = getScrambleArrayBin(True, False, random.uniform(0.959, 0.981), mun.nbHouseholds)
+            access = getScrambleArrayBin(True, False, random.uniform(self.config['accessProportion']['Min'], self.config['accessProportion']['Max']), mun.nbHouseholds)
             # collection at Home or not
             if mun.nbContrat == 1 :
                 atHome = [True] * mun.nbHouseholds
@@ -121,7 +121,10 @@ class RecyclingModel(Model):
                 gausImp = np.random.normal(values['recImportance']['Mean'], values['recImportance']['Var'], pop[1])
                 gausKno = np.random.normal(values['recKnowledge']['Mean'], values['recKnowledge']['Var'], pop[1])
 
-                distance = random.uniform(0,300)
+                distance = random.gauss(self.config['distanceToCenter']['Mean'], self.config['distanceToCenter']['Var'])
+                maxDistance = self.config['distanceToCenter']['Max']
+
+                distance = 0 if distance < 0 else (maxDistance if distance > maxDistance else distance)
 
                 for k in range (pop[1]):
                     house = Household(munId+1+j, self, mun, pop[0], access[j], atHome[j], distance, self.limitValues(gausPer[k]), self.limitValues(gausImp[k]), self.limitValues(gausKno[k]))
@@ -144,6 +147,7 @@ class RecyclingModel(Model):
         f = open('config.json')
         data = json.load(f)
         f.close()
+        Waste.init(data)
         return data
 
     def limitValues(self, s):

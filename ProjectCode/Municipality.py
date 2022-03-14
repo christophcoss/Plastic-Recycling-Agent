@@ -45,8 +45,8 @@ class Municipality(Agent):
     def chooseOffer(self, listOffers):
         res = []
         for offer in listOffers:
-            if (offer.fine < offer.baseWaste / 1000 * 0.1 * pricePerTon and \
-                offer.minRec >= self.recTarget):
+            if (offer.fine < offer.baseWaste / 1000 * 0.1 * self.model.config['pricePerTon'] and \
+                offer.minRec >= self.model.getTarget()):
                 res.append(offer)
         if len(res) == 0:
             return None
@@ -58,7 +58,8 @@ class Municipality(Agent):
     # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
     # that will improve the preception, importance and knowledge of the households towards recycling.
 
-    #Need to change this algorithm depending on how far away from the target we are
+    # Need to change this algorithm depending on how far away from the target we are
+    # Maybe change to take into account rates per group and target group that is underperforming a lot
     def makeActivities(self):
         #activityValue = 0
         activities = self.model.activities
@@ -73,13 +74,13 @@ class Municipality(Agent):
 
     # Decide how many new contracts need to be made for the coming (3) years
     def newContracts(self, step):
-        wasteProdNyears = Waste.trashMunicipality(step, lengthContract*12, self.population)
+        wasteProdNyears = Waste.trashMunicipality(step, self.model.config['lengthContract']*12, self.population)
         margin = 1.015
         wasteToContract = round(wasteProdNyears * margin)
         if self.nbContrat == 1 :
             self.newContract(step,CollectionType.AT_HOME,wasteToContract,1)
         else :
-            partAtHome = round(random.uniform(0.51,0.65) * wasteProdNyears * margin)
+            partAtHome = round(random.uniform(self.model.config['partAtHome']['Min'],self.model.config['partAtHome']['Max']) * wasteProdNyears * margin)
             self.newContract(step,CollectionType.AT_HOME,partAtHome,1)
             self.newContract(step,CollectionType.CENTRALIZED, wasteToContract - partAtHome,2)
 
@@ -91,12 +92,12 @@ class Municipality(Agent):
         while (offerOK is None):
             listOffers = []
             for a in recIncs:
-               listOffers.append(a.makeOffer(baseWaste, recyclingTarget))
+               listOffers.append(a.makeOffer(baseWaste, self.model.getTarget()))
             offerOK = self.chooseOffer(listOffers)
 
         # an offer has been chosen
         newContract = Contract(self, offerOK.recCompany, offerOK.amount, offerOK.baseWaste, offerOK.minRec, \
-                              collType, step, step+lengthContract*12, offerOK.fine, seq)
+                              collType, step, step+self.model.config['lengthContract']*12, offerOK.fine, seq)
 
         self.contracts.append(newContract)
         self.activeContracts.append(newContract)
@@ -128,9 +129,9 @@ class Municipality(Agent):
                 delta -= f
 
         self.population.append((HouseholdType.RETIRED, dist[0]))
-        self.population.append((HouseholdType.SINGLE , dist[1]))
-        self.population.append((HouseholdType.COUPLE , dist[2]))
-        self.population.append((HouseholdType.FAMILY , dist[3]))
+        self.population.append((HouseholdType.SINGLE, dist[1]))
+        self.population.append((HouseholdType.COUPLE, dist[2]))
+        self.population.append((HouseholdType.FAMILY, dist[3]))
 
 
     def step(self):
@@ -142,7 +143,7 @@ class Municipality(Agent):
             self.activeContracts.remove(contract)
 
         # create new contracts if needed
-        if step % (lengthContract*12) == 0:
+        if step % (self.model.config['lengthContract']*12) == 0:
             self.newContracts(step)
 
 
@@ -151,6 +152,7 @@ class Municipality(Agent):
         # maybe change this so that it takes into account avoiding fines from companies
         if self.rate < (self.model.getTarget() * 1.05) and self.model.schedule.steps % 12 == 0 and self.model.schedule.steps != 0:
             self.makeActivities()
+            #return
 
     def instantRate (self) :
         self.stepTotalCollectedWaste = 0
@@ -158,6 +160,8 @@ class Municipality(Agent):
         for contract in self.activeContracts:
             self.stepTotalCollectedWaste += contract.stepCollectedWaste
             self.stepTotalCollectedPlastic += contract.stepCollectedPlastic
-        return 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / self.stepTotalCollectedWaste
+            rate = 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / self.stepTotalCollectedWaste
+            if rate > 1: print("error at step " + str(self.model.schedule.steps))
+        return rate
 
 

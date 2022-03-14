@@ -1,15 +1,18 @@
 import math
+import json
 
 from Types import HouseholdType
 
 
 class Waste:
 
-    # Describes the coefficients of trash production for each household type compared to the base household production
-    coeffRetired = 0.8
-    coeffSingle = 1
-    coeffCouple = 2
-    coeffFamily = 2.5
+    householdData = None
+
+    @classmethod
+    def init(cls, data):
+        if cls.householdData is None:
+            cls.householdData = data['households']
+
 
 
     # The base trash production function using the formula given in the assignement
@@ -27,14 +30,7 @@ class Waste:
     @classmethod
     def trashHousehold(cls, step, type):
         wasteProd = cls.produceTrash(step,1)
-        if type == HouseholdType.RETIRED:
-            wasteProd *= cls.coeffRetired
-        elif type == HouseholdType.SINGLE:
-            wasteProd *= cls.coeffSingle
-        elif type == HouseholdType.COUPLE:
-            wasteProd *= cls.coeffCouple
-        else:
-            wasteProd *= cls.coeffFamily
+        wasteProd *= cls.householdData[type.value]['rateFactor']
         return wasteProd
 
 
@@ -45,14 +41,7 @@ class Waste:
         wasteBase = cls.produceTrash(step,nbSteps)
         coeff = 0
         for pair in population:
-            if pair[0] == HouseholdType.RETIRED:
-                coeff += cls.coeffRetired * pair[1]
-            elif pair[0] == HouseholdType.SINGLE:
-                coeff += cls.coeffSingle * pair[1]
-            elif pair[0] == HouseholdType.COUPLE:
-                coeff += cls.coeffCouple * pair[1]
-            elif pair[0] == HouseholdType.FAMILY:
-                coeff += cls.coeffFamily * pair[1]
+            coeff += cls.householdData[pair[0].value]['rateFactor'] * pair[1]
         return wasteBase * coeff
 
     # def __init__(self, qPlastic, qNPlastic):

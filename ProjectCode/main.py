@@ -28,10 +28,22 @@ if __name__ == '__main__':
     plt.savefig(my_filename(outputDir, now, 'rate.png'), bbox_inches='tight')
 
     plt.figure()
-    sns.lineplot(data=model_data,x='step',y = 'rateRecycling')
-    plt.title('Rate of plastic recycling', fontweight="bold", fontsize=14,y= -0.22)
+
+    sns.lineplot(data=model_data,x='step',y = 'collectedWaste')
+    plt.title('waste Collected', fontweight="bold", fontsize=14,y= -0.22)
     plt.xlabel("Step")
-    plt.ylabel("Rate")
-    plt.savefig(my_filename(outputDir, now, 'rate.png'), bbox_inches='tight')
+    plt.ylabel("Waste")
+    plt.savefig(my_filename(outputDir, now, 'waste.png'), bbox_inches='tight')
+
+    plt.figure()
+
+    sns.lineplot(data=model_data,x='step',y = 'collectedPlastic')
+    plt.title('Plastic Collected', fontweight="bold", fontsize=14,y= -0.22)
+    plt.xlabel("Step")
+    plt.ylabel("Plastic")
+    plt.savefig(my_filename(outputDir, now, 'plastic.png'), bbox_inches='tight')
+
+    plt.figure()
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
