@@ -1,6 +1,7 @@
 import math
 
 from mesa import Agent
+import random
 
 # from enum import *
 from Waste import *
@@ -28,6 +29,7 @@ class Household(Agent):
         self.recPerception = recPerception #how perceptive they are to changing their importance of recycling
         self.recImportance = recImportance #how important it is for them to recycle
         self.recKnowledge = recKnowledge #how good they are at recycling
+        self.factorWaste = 1
         self.wasteProd = 0
         self.wastePlastic = 0
         self.wasteNPlastic = 0
@@ -51,7 +53,7 @@ class Household(Agent):
 
 
     def produceAndSortTrash(self, step):
-        wasteProd = Waste.trashHousehold(step, self.type)
+        wasteProd = Waste.trashHousehold(step, self.type) * self.factorWaste
 
         plastic = self.separateTrash(wasteProd)
         self.wasteProd += wasteProd
@@ -71,8 +73,26 @@ class Household(Agent):
 
     def step(self):
         step = self.model.schedule.steps
+        self.activateActivity(step)
         self.produceAndSortTrash(step)
         self.throwOutTrash(step)
+
+    def activateActivity(self, step):
+        for act in self.municipality.pendingActivities:
+            if act.effectOnStep == step:
+                self.act(act)
+
+    def act(self, act):
+        if 'recImportance' in act.attribute:
+            self.recImportance *= 1 + act.efficiency[self.type.value]
+        if 'recKnowledge' in act.attribute:
+            self.recKnowledge *= 1 + act.efficiency[self.type.value]
+        if 'recPerception' in act.attribute:
+            self.recPerception *= 1 + act.efficiency[self.type.value]
+        if 'wasteProd' in act.attribute:
+            self.factorWaste *= 1 + act.efficiency[self.type.value]
+        if 'infraAccess' in act.attribute:
+            self.infraAccess = self.infraAccess if self.infraAccess else random.random() < act.efficiency[self.type.value]
 
 
     # if centralized collection is available and not too far away then it is the choosen option

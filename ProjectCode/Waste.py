@@ -39,6 +39,7 @@ class Waste:
 
 
     # Gives the ammount of trash that the municipality will produce in the next 3 years (for renewing contracts)
+    #
     @classmethod
     def trashMunicipality(cls, step, nbSteps, population):
         wasteBase = cls.produceTrash(step,nbSteps)

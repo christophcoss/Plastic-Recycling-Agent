@@ -2,6 +2,7 @@ import random
 import math
 from mesa import Agent
 
+
 # from Household import Household
 from Activity import Activity
 from Contract import Contract
@@ -57,9 +58,18 @@ class Municipality(Agent):
     # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
     # that will improve the preception, importance and knowledge of the households towards recycling.
 
-    #TODO
+    #Need to change this algorithm depending on how far away from the target we are
     def makeActivities(self):
-       return 0
+        #activityValue = 0
+        activities = self.model.activities
+        activities.sort(key = lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)), reverse = True)
+        for act in activities:
+            if act.totalCost(self.nbHouseholds) < self.availableMoney:
+                act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
+                self.pendingActivities.append(act)
+                break
+        return
+
 
     # Decide how many new contracts need to be made for the coming (3) years
     def newContracts(self, step):
