@@ -64,7 +64,7 @@ def get_data_municipality(model):
 
 
 class RecyclingModel(Model):
-    def __init__(self, nMunicipality, nRecComp, nHouseholds, seed = None):
+    def __init__(self, nMunicipality, nRecComp, nHouseholds, seed = None, scenario):
         super().__init__(seed)
         self.activities = self.loadActivities()
         self.nMunicipality = nMunicipality
@@ -72,6 +72,7 @@ class RecyclingModel(Model):
         self.nHouseholds = nHouseholds
         self.schedule = RandomActivationByType(self)
         self.config = self.loadConfig()
+        self.scenario = scenario
 
 
         #the data collector, defines which variables will be collected, and how
@@ -134,7 +135,7 @@ class RecyclingModel(Model):
         return
 
     def loadActivities(self):
-        f = open('Activities.json')
+        f = open(self.scenario)
         data = json.load(f)
         f.close()
         res = []
