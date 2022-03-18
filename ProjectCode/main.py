@@ -1,6 +1,7 @@
 import datetime as d
 import matplotlib.pyplot as plt
 import inspect, os.path
+from pandas.plotting import table
 
 import seaborn as sns
 
@@ -24,36 +25,53 @@ if __name__ == '__main__':
             #print(d.datetime.now())
             model_data = model.datacollector.get_model_vars_dataframe()
             sns.lineplot(data=model_data,x='step',y = 'rateRecycling')
-            plt.title('Rate of plastic recycling', fontweight="bold", fontsize=14,y= -0.22)
+            plt.title('Rate of plastic recycling ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
             plt.ylabel("Rate")
-            plt.savefig(my_filename(outputDir, now, 'rate.png'), bbox_inches='tight')
+            plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' rate.png'), bbox_inches='tight')
 
             plt.figure()
 
             sns.lineplot(data=model_data,x='step',y = 'collectedWaste')
-            plt.title('waste Collected', fontweight="bold", fontsize=14,y= -0.22)
+            plt.title('waste Collected ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
             plt.ylabel("Waste")
-            plt.savefig(my_filename(outputDir, now, 'waste.png'), bbox_inches='tight')
+            plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' waste.png'), bbox_inches='tight')
 
             plt.figure()
 
             sns.lineplot(data=model_data,x='step',y = 'collectedPlastic')
-            plt.title('Plastic Collected', fontweight="bold", fontsize=14,y= -0.22)
+            plt.title('Plastic Collected ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
             plt.ylabel("Plastic")
-            plt.savefig(my_filename(outputDir, now, 'plastic.png'), bbox_inches='tight')
+            plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' plastic.png'), bbox_inches='tight')
 
             plt.figure()
 
             sns.lineplot(data=model_data,x='step',y = 'availableMoney')
-            plt.title('Money Available', fontweight="bold", fontsize=14,y= -0.22)
+            plt.title('Money Available ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
             plt.ylabel("Money")
-            plt.savefig(my_filename(outputDir, now, 'money.png'), bbox_inches='tight')
+            plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' money.png'), bbox_inches='tight')
 
             plt.figure()
+
+            result = model_data.loc[model_data['activityBought']!='None'][["step", "activityBought"]].set_index('step')
+
+            ax = plt.subplot(111, frame_on=False)
+            ax.xaxis.set_visible(False)
+            ax.yaxis.set_visible(False)
+            ax.set_title('Activities Bought ' + scenario.name[:-13], fontweight="bold", fontsize=14, y = 0 , pad = -38)
+            tat = table(ax, result, loc='center')
+            w, h = tat[0,0].get_width(), tat[0,0].get_height()
+            tat.add_cell(0,-1, w, h, text='Step', loc='center')
+            tat.add_cell(0, 0, w, h, text='Activity Bought', loc='center')
+            tat.set_fontsize(11)
+            tat.scale(1, 1.2)
+            plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' activities.png'), bbox_inches='tight')
+
+            plt.figure()
+
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

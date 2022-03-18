@@ -35,6 +35,7 @@ class Municipality(Agent):
         self.stepTotalCollectedPlastic = 0
         self.rate = 0
         self.pendingActivities = []
+        self.activityBought = 'None'
 
 
     # The municipality receives offers from multiple companies it needs to choose only one.
@@ -68,6 +69,7 @@ class Municipality(Agent):
             if act.totalCost(self.nbHouseholds) < self.availableMoney:
                 act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
                 self.pendingActivities.append(act)
+                self.activityBought = act.name
                 break
         return
 
@@ -152,9 +154,10 @@ class Municipality(Agent):
         # maybe change this so that it takes into account avoiding fines from companies
         if self.rate < (self.model.getTarget() * 1.05) and self.model.schedule.steps % 12 == 0 and self.model.schedule.steps != 0:
             self.makeActivities()
-            #return
+        else:
+            self.activityBought = 'None'
 
-    def instantRate (self) :
+    def instantRate(self) :
         self.stepTotalCollectedWaste = 0
         self.stepTotalCollectedPlastic = 0
         for contract in self.activeContracts:

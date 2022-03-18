@@ -52,6 +52,9 @@ def get_available_money(model):
 def get_total_fines(model):
     return get_data_municipality(model)[1]
 
+def get_activities_bought(model):
+    return get_data_municipality(model)[3]
+
 #Assumes only one municipality
 def get_data_municipality(model):
     money = 0
@@ -60,20 +63,20 @@ def get_data_municipality(model):
         money += mun.availableMoney
         fines += mun.fines
         rate = mun.rate
-    return money, fines, rate
+        activityBought = mun.activityBought
+    return money, fines, rate, activityBought
 
 
 class RecyclingModel(Model):
-    def __init__(self, nMunicipality, nRecComp, nHouseholds, seed = None, scenario):
+    def __init__(self, nMunicipality, nRecComp, nHouseholds, scenario, seed = None):
         super().__init__(seed)
-        self.activities = self.loadActivities()
         self.nMunicipality = nMunicipality
         self.nRecComp = nRecComp
         self.nHouseholds = nHouseholds
         self.schedule = RandomActivationByType(self)
         self.config = self.loadConfig()
         self.scenario = scenario
-
+        self.activities = self.loadActivities()
 
         #the data collector, defines which variables will be collected, and how
         model_metrics = {
@@ -82,7 +85,8 @@ class RecyclingModel(Model):
                 "collectedPlastic":get_collected_plastic,
                 "rateRecycling":get_rate_recycling,
                 "fines":get_total_fines,
-                "availableMoney":get_available_money
+                "availableMoney":get_available_money,
+                "activityBought":get_activities_bought
             }
         # agent_metrics = {
         #         "rate":getRate
@@ -165,12 +169,13 @@ class RecyclingModel(Model):
     def step(self):
         '''Advance the model by one step.'''
         #collect the model data
-        if self.schedule.steps != 0:
-            self.datacollector.collect(self)
+
         #run the step
         self.schedule.step()
 
         self.afterStep()
+
+        self.datacollector.collect(self)
 
     def afterStep(self):
         muns = self.schedule.get_agents_of_type(Municipality)
