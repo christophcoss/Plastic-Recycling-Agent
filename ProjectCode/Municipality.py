@@ -66,10 +66,11 @@ class Municipality(Agent):
         activities = self.model.activities
         activities.sort(key = lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)), reverse = True)
         for act in activities:
-            if act.totalCost(self.nbHouseholds) < self.availableMoney:
+            if act.totalCost(self.nbHouseholds) < (self.availableMoney/2):
                 act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
                 self.pendingActivities.append(act)
                 self.activityBought = act.name
+                self.availableMoney -= act.totalCost(self.nbHouseholds)
                 break
         return
 
