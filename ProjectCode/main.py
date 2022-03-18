@@ -45,5 +45,13 @@ if __name__ == '__main__':
 
     plt.figure()
 
+    sns.lineplot(data=model_data,x='step',y = 'availableMoney')
+    plt.title('Money Available', fontweight="bold", fontsize=14,y= -0.22)
+    plt.xlabel("Step")
+    plt.ylabel("Money")
+    plt.savefig(my_filename(outputDir, now, 'money.png'), bbox_inches='tight')
+
+    plt.figure()
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

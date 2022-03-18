@@ -42,10 +42,10 @@
     "Name": "educative events on recycling importance",
     "Attribute": ["recImportance", "recKnowledge", "recPerception"],
     "Efficiency": {
-      "single": 0,
-      "couple": 0.01,
+      "single": 0.1,
+      "couple": 0.1,
       "retired": 0.02,
-      "family": 0.2
+      "family": 0.07
     },
     "Cost": 1000,
     "ScaledCost": true,

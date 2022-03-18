@@ -164,7 +164,8 @@ class RecyclingModel(Model):
     def step(self):
         '''Advance the model by one step.'''
         #collect the model data
-        self.datacollector.collect(self)
+        if self.schedule.steps != 0:
+            self.datacollector.collect(self)
         #run the step
         self.schedule.step()
 
