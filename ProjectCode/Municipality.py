@@ -163,7 +163,7 @@ class Municipality(Agent):
         for contract in self.activeContracts:
             self.stepTotalCollectedWaste += contract.stepCollectedWaste
             self.stepTotalCollectedPlastic += contract.stepCollectedPlastic
-            rate = 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / self.stepTotalCollectedWaste
+            rate = 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / (self.stepTotalCollectedWaste * self.model.config['plasticRateInWaste'])
             if rate > 1: print("error at step " + str(self.model.schedule.steps))
         return rate
 
