@@ -1,0 +1,54 @@
+[
+  {
+    "Name": "Build more centralized collection spots", #younger people are more able to walk to the designed waste bins, elderly are less able, thus it has more effect on their behaviour
+    "Attribute": ["infraAccess"],
+    "Efficiency": {
+      "single": 0.025,
+      "couple": 0.025,
+      "retired": 0.04,
+      "family": 0.025
+    },
+    "Cost": 1000000,
+    "ScaledCost": false,
+    "StepsToEffect": 12
+  },
+  {
+    "Name": "Billboard campaign on recycling importance", #Older people and family with children are more aware of their surrounding, since they are less on their phones
+    "Attribute": ["recImportance", "recKnowledge", "recPerception"],
+    "Efficiency": {
+      "single": 0.025,
+      "couple": 0.025,
+      "retired": 0.04,
+      "family": 0.04
+    },
+    "Cost": 2000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  },
+  {
+    "Name": "Digital campaign on recycling importance", #Old generation is not on electrical devices as much as younger gen, also families are less online than singles and couples
+    "Attribute": ["recImportance", "recKnowledge", "recPerception"],
+    "Efficiency": {
+      "single": 0.04,
+      "couple": 0.04,
+      "retired": 0.0075,
+      "family": 0.025
+    },
+    "Cost": 10000,
+    "ScaledCost": true,
+    "StepsToEffect": 2
+  },
+  {
+    "Name": "educative events on recycling importance", #Family is more likely to go to educative events to teach children on how to recycle
+    "Attribute": ["recImportance", "recKnowledge", "recPerception"],
+    "Efficiency": {
+      "single": 0.025,
+      "couple": 0.025,
+      "retired": 0.0075,
+      "family": 0.04
+    },
+    "Cost": 1000,
+    "ScaledCost": true,
+    "StepsToEffect": 1
+  }
+]
