@@ -31,7 +31,8 @@ def get_collected_plastic(model):
     return get_data_contract(model)[1]
 
 def get_rate_recycling(model):
-    return get_data_municipality(model)[2]
+    for mun in model.schedule.agents_by_type[Municipality].values():
+        return mun.instantRate()
 
 # Assumes one municipality needs to be changed for multiple
 

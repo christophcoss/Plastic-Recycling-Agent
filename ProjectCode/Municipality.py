@@ -88,6 +88,7 @@ class Municipality(Agent):
             self.activityBought = act.name
             self.availableMoney -= act.totalCost(self.nbHouseholds)
 
+        return
 
             # activities.sort(key = lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)), reverse = True)
         # for act in activities:
