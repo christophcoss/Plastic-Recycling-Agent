@@ -22,41 +22,42 @@ class Contract:
         self.start = start
         self.end = end
         self.fine = fine
-        self.collectedWaste = 0
-        self.collectedPlastic = 0
-        self.stepCollectedWaste = 0
-        self.stepCollectedPlastic = 0
+        self.collectedWaste = {"retired": 0, "single": 0, "couple": 0, "family": 0}
+        self.collectedPlastic = {"retired": 0, "single": 0, "couple": 0, "family": 0}
+        self.stepCollectedWaste = {"retired": 0, "single": 0, "couple": 0, "family": 0}
+        self.stepCollectedPlastic = {"retired": 0, "single": 0, "couple": 0, "family": 0}
         self.full = False
 
 
-    def collect(self, wasteNPlasticToThrow, wastePlasticToThrow) :
-        avail = self.baseWaste - self.collectedWaste
+    def collect(self, wasteNPlasticToThrow, wastePlasticToThrow, houseHoldType) :
+        avail = self.baseWaste - sum(self.collectedWaste.values())
         wasteToThrow = wastePlasticToThrow + wasteNPlasticToThrow
         if self.full :
             return wasteNPlasticToThrow, wastePlasticToThrow
         if avail >= wasteToThrow:
-            self.collectedWaste += wasteToThrow
-            self.stepCollectedWaste += wasteToThrow
-            self.collectedPlastic += wastePlasticToThrow
-            self.stepCollectedPlastic += wastePlasticToThrow
+            self.collectedWaste[houseHoldType.value] += wasteToThrow
+            self.stepCollectedWaste[houseHoldType.value] += wasteToThrow
+            self.collectedPlastic[houseHoldType.value] += wastePlasticToThrow
+            self.stepCollectedPlastic[houseHoldType.value] += wastePlasticToThrow
+
             return 0 , 0
         else:
             self.full = True
             plastic = wastePlasticToThrow * avail / wasteToThrow
             nonPlastic = wasteNPlasticToThrow * avail / wasteToThrow
-            self.collectedWaste += avail
-            self.stepCollectedWaste += avail
-            self.collectedPlastic += plastic
-            self.stepCollectedPlastic += plastic
+            self.collectedWaste[houseHoldType.value] += avail
+            self.stepCollectedWaste[houseHoldType.value] += avail
+            self.collectedPlastic[houseHoldType.value] += plastic
+            self.stepCollectedPlastic[houseHoldType.value] += plastic
             return wasteNPlasticToThrow - nonPlastic , wastePlasticToThrow - plastic
 
 
     # % of plastic waste recycled from total waste
     def globalPlasticRate(self):
-        if self.collectedWaste == 0 :
+        if sum(self.collectedWaste.values()) == 0 :
             return 1
         else :
-            return self.collectedPlastic / self.collectedWaste
+            return sum(self.collectedPlastic.values()) / sum(self.collectedWaste.values())
 
 
 

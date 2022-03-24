@@ -36,6 +36,7 @@ class Municipality(Agent):
         self.rate = 0
         self.pendingActivities = []
         self.activityBought = 'None'
+        self.rateOfTypes = {"retired": 0, "single": 0, "couple": 0, "family": 0}
 
 
     # The municipality receives offers from multiple companies it needs to choose only one.
@@ -58,21 +59,45 @@ class Municipality(Agent):
 
     # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
     # that will improve the preception, importance and knowledge of the households towards recycling.
+    def getActivity(self, name):
+        for act in self.model.activities:
+            if act.name == name:
+                return act
 
-    # Need to change this algorithm depending on how far away from the target we are
-    # Maybe change to take into account rates per group and target group that is underperforming a lot
     def makeActivities(self):
         #activityValue = 0
-        activities = self.model.activities
-        activities.sort(key = lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)), reverse = True)
-        for act in activities:
-            if act.totalCost(self.nbHouseholds) < (self.availableMoney/2):
-                act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
-                self.pendingActivities.append(act)
-                self.activityBought = act.name
-                self.availableMoney -= act.totalCost(self.nbHouseholds)
-                break
-        return
+
+
+        lowestPerformingType = min(self.rateOfTypes, key=self.rateOfTypes.get)
+        act = None
+        if lowestPerformingType == HouseholdType.FAMILY.value:
+            act = self.getActivity("educative events on recycling importance")
+        if lowestPerformingType == HouseholdType.RETIRED.value:
+            act = self.getActivity("Billboard campaign on recycling importance")
+        if lowestPerformingType == HouseholdType.SINGLE.value:
+            act = self.getActivity("Digital campaign on recycling importance")
+        if lowestPerformingType == HouseholdType.COUPLE.value:
+            act = self.getActivity("Digital campaign on recycling importance")
+
+
+        ## need to add that if the differences of rates between each category is too low then just build more collection spots or smth like that
+
+        if act.totalCost(self.nbHouseholds) < (self.availableMoney / 2):
+            act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
+            self.pendingActivities.append(act)
+            self.activityBought = act.name
+            self.availableMoney -= act.totalCost(self.nbHouseholds)
+
+
+            # activities.sort(key = lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)), reverse = True)
+        # for act in activities:
+        #     if act.totalCost(self.nbHouseholds) < (self.availableMoney/2):
+        #         act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
+        #         self.pendingActivities.append(act)
+        #         self.activityBought = act.name
+        #         self.availableMoney -= act.totalCost(self.nbHouseholds)
+        #         break
+        # return
 
 
     # Decide how many new contracts need to be made for the coming (3) years
@@ -152,6 +177,7 @@ class Municipality(Agent):
 
     def afterStep(self):
         self.rate = self.instantRate()
+        self.getRatesPerType()
         # maybe change this so that it takes into account avoiding fines from companies
         if self.rate < (self.model.getTarget() * 1.05) and self.model.schedule.steps % 12 == 0 and self.model.schedule.steps != 0:
             self.makeActivities()
@@ -162,10 +188,20 @@ class Municipality(Agent):
         self.stepTotalCollectedWaste = 0
         self.stepTotalCollectedPlastic = 0
         for contract in self.activeContracts:
-            self.stepTotalCollectedWaste += contract.stepCollectedWaste
-            self.stepTotalCollectedPlastic += contract.stepCollectedPlastic
-            rate = 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / (self.stepTotalCollectedWaste * self.model.config['plasticRateInWaste'])
-            if rate > 1: print("error at step " + str(self.model.schedule.steps))
+            self.stepTotalCollectedWaste += sum(contract.stepCollectedWaste.values())
+            self.stepTotalCollectedPlastic += sum(contract.stepCollectedPlastic.values())
+        rate = 0 if self.stepTotalCollectedWaste == 0 else self.stepTotalCollectedPlastic / (self.stepTotalCollectedWaste * self.model.config['plasticRateInWaste'])
+        if rate > 1: print("error at step " + str(self.model.schedule.steps))
         return rate
 
+    def instantRateType(self, houseHoldType):
+        typeCollectedWaste = 0
+        typeCollectedPlastic = 0
+        for contract in self.activeContracts:
+            typeCollectedPlastic += contract.stepCollectedPlastic[houseHoldType.value]
+            typeCollectedWaste += contract.stepCollectedWaste[houseHoldType.value]
+        return 0 if typeCollectedWaste == 0 else typeCollectedPlastic / (typeCollectedWaste * self.model.config['plasticRateInWaste'])
 
+    def getRatesPerType(self):
+        for type in HouseholdType:
+            self.rateOfTypes[type.value] = self.instantRateType(type)

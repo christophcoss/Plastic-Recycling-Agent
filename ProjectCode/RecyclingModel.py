@@ -16,6 +16,7 @@ from RandomActivationByType import RandomActivationByType
 from RecyclingCompany import RecyclingCompany
 from Util import *
 from Waste import Waste
+from Types import *
 
 
 
@@ -32,14 +33,32 @@ def get_collected_plastic(model):
 def get_rate_recycling(model):
     return get_data_municipality(model)[2]
 
+# Assumes one municipality needs to be changed for multiple
+
+def get_rate_recycling_retired(model):
+    for mun in model.schedule.agents_by_type[Municipality].values():
+        return mun.instantRateType(HouseholdType.RETIRED)
+
+def get_rate_recycling_single(model):
+    for mun in model.schedule.agents_by_type[Municipality].values():
+        return mun.instantRateType(HouseholdType.SINGLE)
+
+def get_rate_recycling_couple(model):
+    for mun in model.schedule.agents_by_type[Municipality].values():
+        return mun.instantRateType(HouseholdType.COUPLE)
+
+def get_rate_recycling_family(model):
+    for mun in model.schedule.agents_by_type[Municipality].values():
+        return mun.instantRateType(HouseholdType.FAMILY)
+
 def get_data_contract(model):
     collectedWaste = 0
     collectedPlastic = 0
     ratePlastic = 0
     for mun in model.schedule.agents_by_type[Municipality].values():
         for contract in mun.contracts:
-            collectedWaste   += contract.stepCollectedWaste
-            collectedPlastic += contract.stepCollectedPlastic
+            collectedWaste   += sum(contract.stepCollectedWaste.values())
+            collectedPlastic += sum(contract.stepCollectedPlastic.values())
     if collectedWaste > 0:
         ratePlastic = collectedPlastic / collectedWaste
 
@@ -86,7 +105,11 @@ class RecyclingModel(Model):
                 "rateRecycling":get_rate_recycling,
                 "fines":get_total_fines,
                 "availableMoney":get_available_money,
-                "activityBought":get_activities_bought
+                "activityBought":get_activities_bought,
+                "rateRecyclingRetired": get_rate_recycling_retired,
+                "rateRecyclingSingle": get_rate_recycling_single,
+                "rateRecyclingCouple": get_rate_recycling_couple,
+                "rateRecyclingFamily": get_rate_recycling_family
             }
         # agent_metrics = {
         #         "rate":getRate

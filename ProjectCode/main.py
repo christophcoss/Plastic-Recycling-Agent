@@ -62,6 +62,7 @@ if __name__ == '__main__':
             ax.xaxis.set_visible(False)
             ax.yaxis.set_visible(False)
             ax.set_title('Activities Bought ' + scenario.name[:-13], fontweight="bold", fontsize=14, y = 0 , pad = -38)
+
             tat = table(ax, result, loc='center')
             w, h = tat[0,0].get_width(), tat[0,0].get_height()
             tat.add_cell(0,-1, w, h, text='Step', loc='center')

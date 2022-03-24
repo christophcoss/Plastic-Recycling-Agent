@@ -99,7 +99,7 @@ class Household(Agent):
             else:
                 contracts.sort(key = lambda x: x.type.value)
         for contract in contracts :
-            self.wasteNPlasticToThrow, self.wastePlasticToThrow = contract.collect(self.wasteNPlasticToThrow, self.wastePlasticToThrow )
+            self.wasteNPlasticToThrow, self.wastePlasticToThrow = contract.collect(self.wasteNPlasticToThrow, self.wastePlasticToThrow, self.type)
             if self.wasteNPlasticToThrow == 0 and self.wastePlasticToThrow == 0 :
                 break
         return

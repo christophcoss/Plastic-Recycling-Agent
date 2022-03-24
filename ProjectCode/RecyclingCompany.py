@@ -3,6 +3,7 @@ from mesa import Agent
 
 from Offer import Offer
 from Util import *
+from Types import *
 # from Types import Technology
 
 # Recycling Company is an agent in the model. There are several of them for each municipality.
@@ -49,8 +50,9 @@ class RecyclingCompany(Agent):
 
     def resetCollectedWaste(self):
         for con in self.activeContracts:
-            con.stepCollectedWaste = 0
-            con.stepCollectedPlastic = 0
+            for type in HouseholdType:
+                con.stepCollectedWaste[type.value] = 0
+                con.stepCollectedPlastic[type.value] = 0
 
     def step(self):
         self.resetCollectedWaste()
