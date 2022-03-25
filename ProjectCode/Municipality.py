@@ -82,7 +82,7 @@ class Municipality(Agent):
 
         ## need to add that if the differences of rates between each category is too low then just build more collection spots or smth like that
 
-        if act.totalCost(self.nbHouseholds) < (self.availableMoney / 2):
+        if act.totalCost(self.nbHouseholds) < (self.availableMoney / 1.5):
             act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
             self.pendingActivities.append(act)
             self.activityBought = act.name
