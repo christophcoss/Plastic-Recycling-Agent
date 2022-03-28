@@ -3,10 +3,10 @@
     "Name": "Build more centralized collection spots",
     "Attribute": ["infraAccess"],
     "Efficiency": {
-      "single": 0.04,
-      "couple": 0.04,
-      "retired": 0.6,
-      "family": 0.04
+      "single": 0.008,
+      "couple": 0.008,
+      "retired": 0.012,
+      "family": 0.008
     },
     "Cost": 100000,
     "ScaledCost": false,
@@ -16,12 +16,12 @@
     "Name": "Billboard campaign on recycling importance",
     "Attribute": ["recImportance", "recKnowledge", "recPerception"],
     "Efficiency": {
-      "single": 0.04,
-      "couple": 0.04,
-      "retired": 0.06,
-      "family": 0.06
+      "single": 0.008,
+      "couple": 0.008,
+      "retired": 0.012,
+      "family": 0.012
     },
-    "Cost": 200,
+    "Cost": 0.5,
     "ScaledCost": true,
     "StepsToEffect": 1
   },
@@ -29,12 +29,12 @@
     "Name": "Digital campaign on recycling importance",
     "Attribute": ["recImportance", "recKnowledge", "recPerception"],
     "Efficiency": {
-      "single": 0.6,
-      "couple": 0.6,
-      "retired": 0.015,
-      "family": 0.04
+      "single": 0.012,
+      "couple": 0.012,
+      "retired": 0.003,
+      "family": 0.008
     },
-    "Cost": 1000,
+    "Cost": 1,
     "ScaledCost": true,
     "StepsToEffect": 2
   },
@@ -42,12 +42,12 @@
     "Name": "educative events on recycling importance",
     "Attribute": ["recImportance", "recKnowledge", "recPerception"],
     "Efficiency": {
-      "single": 0.035,
-      "couple": 0.035,
-      "retired": 0.015,
-      "family": 0.06
+      "single": 0.007,
+      "couple": 0.007,
+      "retired": 0.003,
+      "family": 0.0012
     },
-    "Cost": 100,
+    "Cost": 0.25,
     "ScaledCost": true,
     "StepsToEffect": 1
   }
