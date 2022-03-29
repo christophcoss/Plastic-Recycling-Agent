@@ -21,7 +21,7 @@
       "retired": 0.2,
       "family": 0.2
     },
-    "Cost": 2000,
+    "Cost": 10,
     "ScaledCost": true,
     "StepsToEffect": 1
   },
@@ -34,7 +34,7 @@
       "retired": 0.1,
       "family": 0.3
     },
-    "Cost": 10000,
+    "Cost": 2,
     "ScaledCost": true,
     "StepsToEffect": 2
   },
@@ -47,7 +47,7 @@
       "retired": 0.4,
       "family": 0.5
     },
-    "Cost": 1000,
+    "Cost": 5,
     "ScaledCost": true,
     "StepsToEffect": 1
   },

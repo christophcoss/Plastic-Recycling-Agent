@@ -21,7 +21,11 @@
       "retired": 0.02,
       "family": 0.02
     },
+<<<<<<< Updated upstream
     "Cost": 0.5,
+=======
+    "Cost": 10,
+>>>>>>> Stashed changes
     "ScaledCost": true,
     "StepsToEffect": 1
   },
@@ -34,7 +38,11 @@
       "retired": 0.004,
       "family": 0.014
     },
+<<<<<<< Updated upstream
     "Cost": 1,
+=======
+    "Cost": 2,
+>>>>>>> Stashed changes
     "ScaledCost": true,
     "StepsToEffect": 2
   },
@@ -47,7 +55,11 @@
       "retired": 0.004,
       "family": 0.02
     },
+<<<<<<< Updated upstream
     "Cost": 0.25,
+=======
+    "Cost": 5,
+>>>>>>> Stashed changes
     "ScaledCost": true,
     "StepsToEffect": 1
   }
