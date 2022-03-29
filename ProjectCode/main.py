@@ -19,7 +19,7 @@ if __name__ == '__main__':
             homeDir = os.path.dirname(os.path.abspath(filename))
             outputDir = homeDir[:-11]+"output"
 
-            model = RecyclingModel(nMunicipality = 1,nRecComp = 10,nHouseholds =58543, scenario = scenario.path)
+            model = RecyclingModel(nMunicipality = 1, scenario = scenario.path)
             for i in range(241):
                 model.step()
             #print(d.datetime.now())

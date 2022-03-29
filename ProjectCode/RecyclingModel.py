@@ -88,13 +88,13 @@ def get_data_municipality(model):
 
 
 class RecyclingModel(Model):
-    def __init__(self, nMunicipality, nRecComp, nHouseholds, scenario, seed = None):
+    def __init__(self, nMunicipality, scenario, seed = None):
+        self.config = self.loadConfig()
         super().__init__(seed)
         self.nMunicipality = nMunicipality
-        self.nRecComp = nRecComp
-        self.nHouseholds = nHouseholds
+        self.nRecComp = self.config["numberOfRecComps"]
+        self.nHouseholds = self.config["numberOfHouseholds"]
         self.schedule = RandomActivationByType(self)
-        self.config = self.loadConfig()
         self.scenario = scenario
         self.activities = self.loadActivities()
 
