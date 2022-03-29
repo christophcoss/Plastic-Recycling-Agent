@@ -56,19 +56,20 @@ if __name__ == '__main__':
 
             plt.figure()
 
-            result = model_data.loc[model_data['activityBought']!='None'][["step", "activityBought"]].set_index('step')
+            result = model_data.loc[model_data['activityBought']!='None'][["step", "activityBought", "activityTargeted", "targetedGroup"]].set_index('step')
 
             ax = plt.subplot(111, frame_on=False)
             ax.xaxis.set_visible(False)
             ax.yaxis.set_visible(False)
             ax.set_title('Activities Bought ' + scenario.name[:-13], fontweight="bold", fontsize=14, y = 0 , pad = -38)
 
-            tat = table(ax, result, loc='center')
+            tat = table(ax, result, loc='center', cellLoc='center')
             w, h = tat[0,0].get_width(), tat[0,0].get_height()
             tat.add_cell(0,-1, w, h, text='Step', loc='center')
             tat.add_cell(0, 0, w, h, text='Activity Bought', loc='center')
             tat.set_fontsize(11)
             tat.scale(1, 1.2)
+            tat.auto_set_column_width(col=list(range(len(result.columns))))
             plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' activities.png'), bbox_inches='tight')
 
             plt.figure()

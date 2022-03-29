@@ -1,7 +1,7 @@
 import random
 import math
 from mesa import Agent
-
+import numpy as np
 
 # from Household import Household
 from Activity import Activity
@@ -10,6 +10,7 @@ from RecyclingCompany import RecyclingCompany
 from Types import HouseholdType, CollectionType
 from Util import *
 from Waste import Waste
+
 
 # Municipality is another very important agent (for now there are only one but can run the model with more)
 # - They have a recycling target in %
@@ -36,6 +37,8 @@ class Municipality(Agent):
         self.rate = 0
         self.pendingActivities = []
         self.activityBought = 'None'
+        self.activityTargeted = "False"
+        self.targetedGroup = "None"
         self.rateOfTypes = {"retired": 0, "single": 0, "couple": 0, "family": 0}
 
 
@@ -57,18 +60,45 @@ class Municipality(Agent):
         return res[0]
 
 
-    # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
-    # that will improve the preception, importance and knowledge of the households towards recycling.
     def getActivity(self, name):
         for act in self.model.activities:
             if act.name == name:
                 return act
 
-    def makeActivities(self):
-        #activityValue = 0
 
+    # Municipalities must use their left over yearly budget to create activities (PR campaign for example)
+    # that will improve the preception, importance and knowledge of the households towards recycling.
+    def makeActivities(self):
 
         lowestPerformingType = min(self.rateOfTypes, key=self.rateOfTypes.get)
+
+        varCoeff = np.std(list(self.rateOfTypes.values()))/np.mean(list(self.rateOfTypes.values()))
+
+        if varCoeff >= 0.05 :
+            self.buyTargetedActivity(lowestPerformingType)
+        else:
+            self.buyUnTargetedActivity()
+
+
+    def buyUnTargetedActivity(self):
+        activities = self.model.activities
+        activities.sort(
+            key=lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)),
+            reverse=True)
+        for act in activities:
+            if act.totalCost(self.nbHouseholds) < (self.availableMoney / 1.5):
+                act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
+                self.pendingActivities.append(act)
+                self.activityBought = act.name
+                self.activityTargeted = "False"
+                self.targetedGroup = "None"
+                self.availableMoney -= act.totalCost(self.nbHouseholds)
+                break
+        return
+
+
+    def buyTargetedActivity(self, lowestPerformingType):
+
         act = None
         if lowestPerformingType == HouseholdType.FAMILY.value:
             act = self.getActivity("educative events on recycling importance")
@@ -86,19 +116,13 @@ class Municipality(Agent):
             act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
             self.pendingActivities.append(act)
             self.activityBought = act.name
+            self.activityTargeted = "True"
+            self.targetedGroup = lowestPerformingType.capitalize()
             self.availableMoney -= act.totalCost(self.nbHouseholds)
+        else:
+            self.buyUnTargetedActivity()
 
-        return
 
-            # activities.sort(key = lambda x: (x.relativeEfficiency(self.population, self.nbHouseholds), x.totalCost(self.nbHouseholds)), reverse = True)
-        # for act in activities:
-        #     if act.totalCost(self.nbHouseholds) < (self.availableMoney/2):
-        #         act.effectOnStep = act.stepsToEffect + self.model.schedule.steps
-        #         self.pendingActivities.append(act)
-        #         self.activityBought = act.name
-        #         self.availableMoney -= act.totalCost(self.nbHouseholds)
-        #         break
-        # return
 
 
     # Decide how many new contracts need to be made for the coming (3) years

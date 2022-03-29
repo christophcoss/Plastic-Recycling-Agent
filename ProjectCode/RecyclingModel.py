@@ -75,6 +75,12 @@ def get_total_fines(model):
 def get_activities_bought(model):
     return get_data_municipality(model)[3]
 
+def get_activity_targeted(model):
+    return get_data_municipality(model)[4]
+
+def get_targeted_group(model):
+    return get_data_municipality(model)[5]
+
 #Assumes only one municipality
 def get_data_municipality(model):
     money = 0
@@ -84,7 +90,9 @@ def get_data_municipality(model):
         fines += mun.fines
         rate = mun.rate
         activityBought = mun.activityBought
-    return money, fines, rate, activityBought
+        activityTargeted = mun.activityTargeted
+        targetedGroup = mun.targetedGroup
+    return money, fines, rate, activityBought, activityTargeted, targetedGroup
 
 
 class RecyclingModel(Model):
@@ -107,6 +115,8 @@ class RecyclingModel(Model):
                 "fines":get_total_fines,
                 "availableMoney":get_available_money,
                 "activityBought":get_activities_bought,
+                "activityTargeted":get_activity_targeted,
+                "targetedGroup":get_targeted_group,
                 "rateRecyclingRetired": get_rate_recycling_retired,
                 "rateRecyclingSingle": get_rate_recycling_single,
                 "rateRecyclingCouple": get_rate_recycling_couple,
