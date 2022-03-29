@@ -14,7 +14,6 @@ from Household import Household
 from Municipality import Municipality
 from RandomActivationByType import RandomActivationByType
 from RecyclingCompany import RecyclingCompany
-from Util import *
 from Waste import Waste
 from Types import *
 
@@ -138,37 +137,64 @@ class RecyclingModel(Model):
             munId = i*(self.nHouseholds+1) + self.nRecComp
             mun = Municipality(munId, self, self.getTarget(), self.config['moneyDispoPerHousehold'] * self.nHouseholds, \
                                self.config['nBContract'], self.nHouseholds)
+            lHouseholds = mun.setPopulationPerType()
             # First Municipality must be added to schedule before any Household => step by type is
-            # called first to Municipality then Household => contracts are created before thery are needed
+            # called first to Municipality then Household => contracts are created before they are needed
             self.schedule.add(mun)
 
             # add Households for this municipality
-            types = mun.population
-            #recycling available to households
-            access = getScrambleArrayBin(True, False, random.uniform(self.config['accessProportion']['Min'], self.config['accessProportion']['Max']), mun.nbHouseholds)
+            # recycling available to households
+            pAccess = random.uniform(self.config['accessProportion']['Min'], self.config['accessProportion']['Max'])
+            access = np.random.choice([True, False], mun.nbHouseholds,p = [pAccess, 1 - pAccess])
             # collection at Home or not
-            if mun.nbContrat == 1 :
-                atHome = [True] * mun.nbHouseholds
-            else :
-                atHome = getScrambleArrayBin(True, False, random.uniform(0.70, 0.85), mun.nbHouseholds)
+            pAtHome = random.uniform(self.config['partAtHome']['Min'], self.config['partAtHome']['Max'])
+            atHome = [True] * mun.nbHouseholds if mun.nbContrat == 1 else \
+                list(np.random.choice([True,False], mun.nbHouseholds, p=[pAtHome, 1 - pAtHome]))
+            # distance from centralized collection
+            lDistance = list(map(lambda x : min(self.config['distanceToCenter']['Max'], max( 0, round(x))), \
+                                 np.random.normal(self.config['distanceToCenter']['Mean'],self.config['distanceToCenter']['Var'],mun.nbHouseholds)))
 
+            # recPerception, recImportance and recKnowledge for each HouseholdType
+            indexRec = {
+                'recPerception' : 0,
+                'recImportance' : 1,
+                'recKnowledge'  : 2
+            }
 
-            j = 0
-            for pop in types:
+            distRec = [[0] * len(indexRec) for i in range (len(HouseholdType))]
+            for pop in mun.population:
                 values = self.config['households'][pop[0].value]
-                gausPer = np.random.normal(values['recPerception']['Mean'], values['recPerception']['Var'], pop[1])
-                gausImp = np.random.normal(values['recImportance']['Mean'], values['recImportance']['Var'], pop[1])
-                gausKno = np.random.normal(values['recKnowledge']['Mean'], values['recKnowledge']['Var'], pop[1])
+                for rec in indexRec.keys() :
+                    distRec[HouseholdType.get_index(pop[0])][indexRec[rec]] = \
+                        np.random.normal(values[rec]['Mean'], values[rec]['Var'], pop[1])
 
-                distance = random.gauss(self.config['distanceToCenter']['Mean'], self.config['distanceToCenter']['Var'])
-                maxDistance = self.config['distanceToCenter']['Max']
+            # creation of Households
+            indTypes = [0] * len(HouseholdType)
+            for j, type in enumerate(lHouseholds):
+                i = HouseholdType.get_index(type)
+                house = Household(munId + 1 + j, self, mun, type, access[j], atHome[j], lDistance[j],
+                                  self.limitValues(distRec[i][indexRec['recPerception']][indTypes[i]]),
+                                  self.limitValues(distRec[i][indexRec['recImportance']][indTypes[i]]),
+                                  self.limitValues(distRec[i][indexRec['recKnowledge']] [indTypes[i]]))
+                self.schedule.add(house)
+                indTypes[i] += 1
 
-                distance = 0 if distance < 0 else (maxDistance if distance > maxDistance else distance)
-
-                for k in range (pop[1]):
-                    house = Household(munId+1+j, self, mun, pop[0], access[j], atHome[j], distance, self.limitValues(gausPer[k]), self.limitValues(gausImp[k]), self.limitValues(gausKno[k]))
-                    self.schedule.add(house)
-                    j += 1
+            # j = 0
+            # for pop in types:
+            #     values = self.config['households'][pop[0].value]
+            #     gausPer = np.random.normal(values['recPerception']['Mean'], values['recPerception']['Var'], pop[1])
+            #     gausImp = np.random.normal(values['recImportance']['Mean'], values['recImportance']['Var'], pop[1])
+            #     gausKno = np.random.normal(values['recKnowledge']['Mean'], values['recKnowledge']['Var'], pop[1])
+            #
+            #     distance = random.gauss(self.config['distanceToCenter']['Mean'], self.config['distanceToCenter']['Var'])
+            #     maxDistance = self.config['distanceToCenter']['Max']
+            #
+            #     distance = 0 if distance < 0 else (maxDistance if distance > maxDistance else distance)
+            #
+            #     for k in range (pop[1]):
+            #         house = Household(munId+1+j, self, mun, pop[0], access[j], atHome[j], distance, self.limitValues(gausPer[k]), self.limitValues(gausImp[k]), self.limitValues(gausKno[k]))
+            #         self.schedule.add(house)
+            #         j += 1
 
         return
 
@@ -192,9 +218,9 @@ class RecyclingModel(Model):
     def limitValues(self, s):
         if s < 0:
             return 0
-        if s < 1:
-            return s
-        return 1
+        if s > 1:
+            return 1
+        return s
 
     def getTarget(self):
         # add 5% every 5 years
@@ -205,6 +231,7 @@ class RecyclingModel(Model):
         #collect the model data
 
         #run the step
+        print("step : {}".format(self.schedule.steps))
         self.schedule.step()
 
         self.afterStep()

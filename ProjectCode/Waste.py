@@ -14,7 +14,6 @@ class Waste:
             cls.householdData = data['households']
 
 
-
     # The base trash production function using the formula given in the assignement
     @classmethod
     def produceTrash(cls, step, nbSteps):
