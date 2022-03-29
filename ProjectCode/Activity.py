@@ -16,6 +16,7 @@ class Activity:
         else :
             return self.cost
 
+
     def relativeEfficiency(self, population, nbHouseholds):
         efficiency = 0
         for pop in population:

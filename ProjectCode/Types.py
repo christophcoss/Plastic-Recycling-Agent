@@ -6,6 +6,9 @@ class HouseholdType(Enum):
     COUPLE  = "couple"
     FAMILY  = "family"
 
+    @classmethod
+    def get_index(cls, type):
+        return list(cls).index(type)
 
 class CollectionType(Enum):
     AT_HOME = "At home"

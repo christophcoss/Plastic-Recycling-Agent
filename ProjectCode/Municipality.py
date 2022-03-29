@@ -1,5 +1,6 @@
 import random
 import math
+from collections import Counter
 from mesa import Agent
 import numpy as np
 
@@ -8,7 +9,6 @@ from Activity import Activity
 from Contract import Contract
 from RecyclingCompany import RecyclingCompany
 from Types import HouseholdType, CollectionType
-from Util import *
 from Waste import Waste
 
 
@@ -30,7 +30,6 @@ class Municipality(Agent):
         self.activeContracts = []
         self.nbHouseholds = nbHouseholds
         self.population = []
-        self.setPopulationPerType()
         self.fines = 0
         self.stepTotalCollectedWaste = 0
         self.stepTotalCollectedPlastic = 0
@@ -165,26 +164,16 @@ class Municipality(Agent):
 
 
     # Municipality needs to create its population this is done in a semi-random way
-    # where interval is given for the proportion of a certain household type in the municipality
+    # where probability is given for a certain household type in the municipality
     def setPopulationPerType(self):
-        infVals = [0.10, 0.20, 0.20, 0.20]
-        supVals = [0.25, 0.35, 0.35, 0.35]
-        p = list(map(lambda x, y: random.uniform(x, y), infVals, supVals))
-        sumCoeff = sum(p)
-        dist = list(map(lambda x: round(x / sumCoeff * self.nbHouseholds), p))
-        delta = self.nbHouseholds - sum(dist)
-        if delta != 0:
-            f = round(math.copysign(1, delta))
-            i= 0
-            while (f * delta > 0):
-                dist[i % 4] += f
-                i += 1
-                delta -= f
-
-        self.population.append((HouseholdType.RETIRED, dist[0]))
-        self.population.append((HouseholdType.SINGLE, dist[1]))
-        self.population.append((HouseholdType.COUPLE, dist[2]))
-        self.population.append((HouseholdType.FAMILY, dist[3]))
+        distribution = []
+        for hType in HouseholdType:
+            distribution.append(self.model.config["households"][hType.value]["demographic"])
+        lHouseholds = np.random.choice(HouseholdType, self.nbHouseholds, p=distribution)
+        c = Counter(lHouseholds)
+        for typeC in c:
+            self.population.append((typeC, c[typeC]))
+        return lHouseholds
 
 
     def step(self):

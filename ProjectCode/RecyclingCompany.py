@@ -2,7 +2,6 @@ import random
 from mesa import Agent
 
 from Offer import Offer
-from Util import *
 from Types import *
 # from Types import Technology
 
