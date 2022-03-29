@@ -1,0 +1,26 @@
+  "moneyDispoPerHousehold": 2100, 			how much money the municipality has per household for the 20 year length of the model
+  "recyclingTarget": 0.5,				
+  "pricePerTon": 30,					    how expensive waste is to collect
+  "plasticRateInWaste" : 0.195,			
+  "distanceToCenter" : {				
+    "Min" : 30,						
+    "Mean" : 150,						
+    "Var" : 5,						
+    "Max" : 300						
+  },
+  "fineFactor" : {
+    "factor" : 0.1,
+    "delta" : 0.1
+  },
+  "partAtHome" : {
+    "Min" : 0.51,
+    "Max" : 0.65
+  },
+  "contractTargetDelta" : 0.03,
+  "contractPriceDelta": 0.03,
+  "accessProportion" : {				
+    "Min" : 0.959,					        The minimum probability to have access to recycling infrastructure
+    "Max" : 0.981						    The maximum probability to have access to recycling infrasturcture
+  },
+  "numberOfHouseholds" : 1000,
+  "numberOfRecComps" : 10
