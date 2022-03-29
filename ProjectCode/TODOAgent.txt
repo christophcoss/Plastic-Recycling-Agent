@@ -1,0 +1,28 @@
++ recycling rate global 
++ recycling rate instantanné
+- supppriner scramble par utilisation de numpy
+- numpy pour population
+- PEC nouveaux parametres
+- increase rateTarget for new Contract ?
++ choose activity
++ activity effect
++ dataCollectors
+	+ add activity tracker
+	+ add total waste produced
+- change rate collection in model to account for multiple municipalities
+
++ Change how activities are chosen
+- Change how totalWaste to collect for contracts is made to take into account factorWaste for households
+- Change hardcoded population spread to use config.json
+
+- Take into account efficiency of recycling from recycling companies 
+	- companies need to have an efficiency (how much raw plastic they obtain from the waste collected)
+	- companies have money to invest in new technologies that improve their efficiency
+
+- Instant rate needs to take into account the fact that people can produce less plastic waste as a % of total waste over time because of activities
+
+- Every 5 years increase taxes on plastics
+
+- Change values of activites cost and build more centralized collection spots
+
+- Change values in config.json to be more accurate
