@@ -149,7 +149,7 @@ class RecyclingModel(Model):
             # collection at Home or not
             pAtHome = random.uniform(self.config['partAtHome']['Min'], self.config['partAtHome']['Max'])
             atHome = [True] * mun.nbHouseholds if mun.nbContrat == 1 else \
-                list(np.random.choice([True,False], mun.nbHouseholds, p=[pAtHome, 1 - pAtHome]))
+                np.random.choice([True,False], mun.nbHouseholds, p=[pAtHome, 1 - pAtHome])
             # distance from centralized collection
             lDistance = list(map(lambda x : min(self.config['distanceToCenter']['Max'], max( 0, round(x))), \
                                  np.random.normal(self.config['distanceToCenter']['Mean'],self.config['distanceToCenter']['Var'],mun.nbHouseholds)))
@@ -231,7 +231,6 @@ class RecyclingModel(Model):
         #collect the model data
 
         #run the step
-        print("step : {}".format(self.schedule.steps))
         self.schedule.step()
 
         self.afterStep()

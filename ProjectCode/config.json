@@ -82,7 +82,7 @@
     "delta" : 0.1
   },
   "partAtHome" : {
-    "Min" : 0.51,
+    "Min" : 0.55,
     "Max" : 0.65
   },
   "contractTargetDelta" : 0.03,

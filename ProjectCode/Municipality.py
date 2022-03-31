@@ -132,7 +132,8 @@ class Municipality(Agent):
         if self.nbContrat == 1 :
             self.newContract(step,CollectionType.AT_HOME,wasteToContract,1)
         else :
-            partAtHome = round(random.uniform(self.model.config['partAtHome']['Min'],self.model.config['partAtHome']['Max']) * wasteProdNyears * margin)
+            # partAtHome = round(random.uniform(self.model.config['partAtHome']['Min'],self.model.config['partAtHome']['Max']) * wasteProdNyears * margin)
+            partAtHome = round(0.51 * wasteProdNyears * margin)
             self.newContract(step,CollectionType.AT_HOME,partAtHome,1)
             self.newContract(step,CollectionType.CENTRALIZED, wasteToContract - partAtHome,2)
 
