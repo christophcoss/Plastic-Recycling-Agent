@@ -88,7 +88,7 @@
   "contractTargetDelta" : 0.03,
   "contractPriceDelta": 0.03,
   "accessProportion" : {
-    "Min" : 0.959,
+    "Min" : 0.90,
     "Max" : 0.981
   },
   "numberOfHouseholds" : 1000,
