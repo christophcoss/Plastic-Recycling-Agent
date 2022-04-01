@@ -25,33 +25,33 @@ if __name__ == '__main__':
             #print(d.datetime.now())
             model_data = model.datacollector.get_model_vars_dataframe()
             sns.lineplot(data=model_data,x='step',y = 'rateRecycling')
-            plt.title('Rate of plastic recycling ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
+            plt.title(scenario.name[:-13].capitalize() + ' Scenario Rate of plastic recycling', fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
-            plt.ylabel("Rate")
+            plt.ylabel("Rate: plastic collected / total plastic production in %")
             plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' rate.png'), bbox_inches='tight')
 
             plt.figure()
 
             sns.lineplot(data=model_data,x='step',y = 'collectedWaste')
-            plt.title('waste Collected ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
+            plt.title(scenario.name[:-13].capitalize() + ' Scenario Waste Collected', fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
-            plt.ylabel("Waste")
+            plt.ylabel("Total waste collected in KG")
             plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' waste.png'), bbox_inches='tight')
 
             plt.figure()
 
             sns.lineplot(data=model_data,x='step',y = 'collectedPlastic')
-            plt.title('Plastic Collected ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
+            plt.title(scenario.name[:-13].capitalize() + ' Scenario Plastic Collected', fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
-            plt.ylabel("Plastic")
+            plt.ylabel("Total plastic collected in KG")
             plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' plastic.png'), bbox_inches='tight')
 
             plt.figure()
 
             sns.lineplot(data=model_data,x='step',y = 'availableMoney')
-            plt.title('Money Available ' + scenario.name[:-13], fontweight="bold", fontsize=14,y= -0.22)
+            plt.title(scenario.name[:-13].capitalize() + ' Scenario Money Available', fontweight="bold", fontsize=14,y= -0.22)
             plt.xlabel("Step")
-            plt.ylabel("Money")
+            plt.ylabel("Money Available in Euros")
             plt.savefig(my_filename(outputDir, now, scenario.name[:-13] + ' money.png'), bbox_inches='tight')
 
             plt.figure()
@@ -61,7 +61,7 @@ if __name__ == '__main__':
             ax = plt.subplot(111, frame_on=False)
             ax.xaxis.set_visible(False)
             ax.yaxis.set_visible(False)
-            ax.set_title('Activities Bought ' + scenario.name[:-13], fontweight="bold", fontsize=14, y = 0 , pad = -38)
+            ax.set_title(scenario.name[:-13].capitalize() + ' Scenario Activities Bought', fontweight="bold", fontsize=14, y = 0 , pad = -38)
 
             tat = table(ax, result, loc='center', cellLoc='center')
             w, h = tat[0,0].get_width(), tat[0,0].get_height()
