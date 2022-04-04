@@ -1,0 +1,65 @@
+
+\subsubsection{Agents and their attributes}
+
+In our models there are three agents which are the Municipality, Households and the Recycling Companies. The classes and their attributes corresponding to these agents is presented in the table below.
+
+\begin{table}[H]
+\begin{tabular}{l|l|l}
+\rowcolor[HTML]{FFFFFF} 
+Class                                & Attribute                     & Attribute type                                                         \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+                                     & type                          &  HouseholdType                                                                   \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & municipality                  &  Municipality                                                               \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & collectAtHome                 &  Boolean                                                                   \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & distanceFromCentrilizedSystem &  Int                                                               \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & factorWaste                   &  Int      \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & infraAcces                    &  Boolean                         \\
+\rowcolor[HTML]{FFFFFF} 
+\cellcolor[HTML]{FFFFFF}Household    & recImportance                 &  Int                                     \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & recKnowledge                  &  Int                          \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & recPerception                 &  Int                       \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & wasteNPlastic                 &  Int                    \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & wasteNPlasticToThrow          &  Int                      \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & wastePlastic                  &  Int                    \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & wastePlasticToThrow           &  Int                  \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & WasteProd                     &  Int                    \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+                                     & activeContracts               &  Int                   \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & activityBought                &  String                        \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & activityTargeted              &  Boolean                       \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & availableMoney                &  Int                       \\
+\rowcolor[HTML]{FFFFFF} 
+                                     & contracts                     &  List<Contracts>                          \\
+                                     & fines                         &  Int                                                                     \\
+                                     & nbContract                    &  Int                                                                     \\
+                                     & nbHouseholds                  &  Int                                                                  \\
+\cellcolor[HTML]{FFFFFF}Municipality & pendingActivities             &  List<Activity>                                                \\
+                                     & population                    &  List<HouseholdType, Int>                                                    \\
+                                     & rate                          &  Int                                                                                \\
+                                     & rateOfTypes                   &  \{"retired": Int, "single": Int, "couple": Int, "family": Int\}                \\
+                                     & recBudget                     &  Int                                                                               \\
+                                     & recTarget                     &  Int                                                                           \\
+                                     & stepTotalCollectedPlastic     &  Int                                                                                \\
+                                     & stepTotalCollectedWaste       &  Int                                                                             \\
+                                     & targetedGroup                 &  String                                                                                 \\ \hline
+                                     & activeContracts               &  List<Contract>                       \\
+Recycling company                    & collectedFines                &  Int                                                                            \\
+                                     & contracts                     &  List<Contract>                                                    \\
+                                     & technology                    &  String                                                                            
+\end{tabular}
+\end{table}

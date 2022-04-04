@@ -1,0 +1,109 @@
+\documentclass[a4paper]{article}
+
+%%%%%%%% CREATE DOCUMENT STRUCTURE %%%%%%%%
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{subfig}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{comment} 
+\usepackage{caption}
+\usepackage{siunitx}
+\usepackage{eurosym}
+\usepackage{subcaption}
+\usepackage{sectsty}
+\usepackage{sidecap}
+\usepackage[hyphens]{url}
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+\Urlmuskip=0mu plus 1mu
+\usepackage{mwe}
+\usepackage{float}
+\usepackage{titling} 
+\usepackage{blindtext}
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0.0, 0.4, 0.0}%
+\usepackage{subfiles}
+\usepackage{gensymb}
+\usepackage[toc,page]{appendix}
+\usepackage{chemist}
+\usepackage{fixltx2e}
+\usepackage{colortbl}
+
+
+%%%%%%%% DOCUMENT %%%%%%%%
+
+\begin{document}
+
+%%%% Title Page
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 							% horizontal line and its thickness
+\center 
+ 
+% University
+\textsc{\LARGE Delft University of Technology}\\[1cm]
+
+% Document info
+\textsc{\large SEN1211}\\[1cm] 										% Course Code
+\HRule \\[0.8cm]
+{ \huge \bfseries Agent Based Model on Waste Collection In Municipality Delft}\\[0.7cm]								% Assignment
+\HRule \\[2cm]
+\large
+\emph{Authors:}\\[0.5cm]
+Dimitri Kras - 4861507\\
+Gabriel Vanderweyen - 5429609\\
+Christopher Cosse - 4648269\\ [1.5cm]
+
+% Author info
+{\large \today}\\[5cm]
+\includegraphics[width=0.4\textwidth]{Images/TUDelftSeal.png}\\[1cm] 	% University logo
+\vfill 
+\end{titlepage}
+
+\newpage
+\tableofcontents
+
+\newpage
+\section{Introduction}
+\subfile{Sections/1. Introduction.tex}
+
+\newpage
+\section{Methodology}
+\subfile{Sections/2. Methodology.tex}
+
+\newpage
+\section{Modelling Cycle}
+\subfile{Sections/3. Modelling Cycle.tex}
+
+\newpage
+\section{Discussion}
+\subfile{Sections/4. Discussion.tex}
+
+\newpage
+\section{Recommendations}
+\subfile{Sections/5. Recommendations.tex}
+
+
+\section{Conclusion}
+\subfile{Sections/6. Conclusion.tex}
+
+\newpage
+\bibliographystyle{abbrvnat}
+\bibliography{Reference}
+
+\end{document}
+
+
